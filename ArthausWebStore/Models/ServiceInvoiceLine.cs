@@ -1,0 +1,106 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace ArthausWebStore.Models
+{
+    public partial class ServiceInvoiceLine
+    {
+        public byte[] Timestamp { get; set; }
+        public string DocumentNo { get; set; }
+        public int LineNo { get; set; }
+        public string CustomerNo { get; set; }
+        public int Type { get; set; }
+        public string No { get; set; }
+        public string LocationCode { get; set; }
+        public string PostingGroup { get; set; }
+        public string Description { get; set; }
+        public string Description2 { get; set; }
+        public string UnitOfMeasure { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal UnitCostLcy { get; set; }
+        public decimal Vat { get; set; }
+        public decimal LineDiscount { get; set; }
+        public decimal LineDiscountAmount { get; set; }
+        public decimal Amount { get; set; }
+        public decimal AmountIncludingVat { get; set; }
+        public byte AllowInvoiceDisc { get; set; }
+        public decimal GrossWeight { get; set; }
+        public decimal NetWeight { get; set; }
+        public decimal UnitsPerParcel { get; set; }
+        public decimal UnitVolume { get; set; }
+        public int ApplToItemEntry { get; set; }
+        public string ShortcutDimension1Code { get; set; }
+        public string ShortcutDimension2Code { get; set; }
+        public string CustomerPriceGroup { get; set; }
+        public string WorkTypeCode { get; set; }
+        public string ShipmentNo { get; set; }
+        public int ShipmentLineNo { get; set; }
+        public string BillToCustomerNo { get; set; }
+        public decimal InvDiscountAmount { get; set; }
+        public string GenBusPostingGroup { get; set; }
+        public string GenProdPostingGroup { get; set; }
+        public int VatCalculationType { get; set; }
+        public string TransactionType { get; set; }
+        public string TransportMethod { get; set; }
+        public int AttachedToLineNo { get; set; }
+        public string ExitPoint { get; set; }
+        public string Area { get; set; }
+        public string TransactionSpecification { get; set; }
+        public string TaxAreaCode { get; set; }
+        public byte TaxLiable { get; set; }
+        public string TaxGroupCode { get; set; }
+        public string VatClauseCode { get; set; }
+        public string VatBusPostingGroup { get; set; }
+        public string VatProdPostingGroup { get; set; }
+        public decimal VatBaseAmount { get; set; }
+        public byte SystemCreatedEntry { get; set; }
+        public decimal LineAmount { get; set; }
+        public decimal VatDifference { get; set; }
+        public string VatIdentifier { get; set; }
+        public int DimensionSetId { get; set; }
+        public string VariantCode { get; set; }
+        public string BinCode { get; set; }
+        public decimal QtyPerUnitOfMeasure { get; set; }
+        public string UnitOfMeasureCode { get; set; }
+        public decimal QuantityBase { get; set; }
+        public string ResponsibilityCenter { get; set; }
+        public byte SubstitutionAvailable { get; set; }
+        public string ItemCategoryCode { get; set; }
+        public byte Nonstock { get; set; }
+        public string ProductGroupCode { get; set; }
+        public string ServiceItemNo { get; set; }
+        public int ApplToServiceEntry { get; set; }
+        public int ServiceItemLineNo { get; set; }
+        public string ServiceItemSerialNo { get; set; }
+        public string ServiceItemLineDescription { get; set; }
+        public string ServPriceAdjmtGrCode { get; set; }
+        public DateTime PostingDate { get; set; }
+        public DateTime NeededByDate { get; set; }
+        public string ShipToCode { get; set; }
+        public decimal QuantityConsumed { get; set; }
+        public decimal QtyConsumedBase { get; set; }
+        public string ServicePriceGroupCode { get; set; }
+        public string FaultAreaCode { get; set; }
+        public string SymptomCode { get; set; }
+        public string FaultCode { get; set; }
+        public string ResolutionCode { get; set; }
+        public byte ExcludeWarranty { get; set; }
+        public byte Warranty { get; set; }
+        public string ContractNo { get; set; }
+        public decimal ContractDisc { get; set; }
+        public decimal WarrantyDisc { get; set; }
+        public int ComponentLineNo { get; set; }
+        public int SparePartAction { get; set; }
+        public string FaultReasonCode { get; set; }
+        public string ReplacedItemNo { get; set; }
+        public byte ExcludeContractDiscount { get; set; }
+        public int ReplacedItemType { get; set; }
+        public int PriceAdjmtStatus { get; set; }
+        public int LineDiscountType { get; set; }
+        public int CopyComponentsFrom { get; set; }
+        public string ReturnReasonCode { get; set; }
+        public byte AllowLineDisc { get; set; }
+        public string CustomerDiscGroup { get; set; }
+    }
+}
