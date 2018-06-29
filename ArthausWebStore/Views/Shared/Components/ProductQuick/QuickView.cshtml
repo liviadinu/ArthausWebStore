@@ -22,10 +22,16 @@
             <div class="price-box-3">
                 <hr />
                 <div class="s-price-box">
-                    <span class="old-price">Old Price: @oldPrice </span>
-                    @if (showDiscount)
+                    
+                    @if (!showDiscount)
                     {
-                        <span class="new-price">New Price: @newPrice </span>
+                      <span class="old-price">Old Price: @oldPrice</span>
+                      <div></div>
+                      <span class="new-price">New Price: @newPrice</span>
+                    }
+                    else
+                    { 
+                     <span class="new-price"> Price: @oldPrice </span>
                     }
 
                 </div>

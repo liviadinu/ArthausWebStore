@@ -6,6 +6,7 @@ using ArthausWebStore.Models;
 using ArthausWebStore.Models.Interface;
 using ArthausWebStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using PagedList.Mvc;
 
 namespace ArthausWebStore.Controllers
 {
@@ -17,19 +18,30 @@ namespace ArthausWebStore.Controllers
         {
             _productRepository = productsGrid;
         }
-        public IActionResult Products()
+
+        public IActionResult Index(string sortOrder,string CurrentFilter,string searchString, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
+
             var productsViewModel = new ProductsViewModel()
             {
-                CategoryFilter = _productRepository.GetAllCategories().ToList(),
+                ItemCategoriesList = _productRepository.GetAllCategories().ToList(),
                 ProductGrid = _productRepository.GetAllItems().ToList(),
                 ItemPrices = _productRepository.GetAllItemPrices().ToList(),
                 ColorsFilter = _productRepository.GetVariants().OrderBy(c => c.Color).ToList(),
-                BestBrands = _productRepository.GetAllBrands().ToList(),
+                ItemBrandsList = _productRepository.GetAllBrands().ToList(),
                 DivisionFilter = _productRepository.GetAllDivisons().ToList(),
                 ItemFlags = _productRepository.GetFlags().ToList()
             };
             return View(productsViewModel);
         }
+
+        public IActionResult ViewAccessories()
+        {
+
+            return View();
+        }
+
+
     }
 }

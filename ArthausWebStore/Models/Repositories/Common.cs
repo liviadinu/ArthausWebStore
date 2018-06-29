@@ -45,6 +45,20 @@ namespace ArthausWebStore.Models.Repositories
             return expectedPrice.ToString("c");
 
         }
+        public static bool ShowDiscounted(string SKU, IEnumerable<ItemPrices> prices)
+        {
+            decimal normalPrice,discountPrice = 0;
+            var price = prices.Where(i => i.No == SKU).FirstOrDefault();
+            normalPrice = price.UnitPriceIncludingVat.GetValueOrDefault();
+            discountPrice = normalPrice;
+
+            if (price.EndDateSales >= System.DateTime.Today && price.DiscountPerc.Value != 0 && price.DiscountPerc.HasValue)
+            {
+                discountPrice = normalPrice - (normalPrice * price.DiscountPerc.Value / 100);
+            }
+
+            return discountPrice == normalPrice;
+        }
 
         public static string ReturnDiscountPerc(string SKU, IEnumerable<ItemPrices> priceList)
         {
