@@ -1,0 +1,85 @@
+﻿@model ArthausWebStore.ViewModels.HomeViewModel
+@using ArthausWebStore.Models.Repositories;
+@{
+    var itemDisc1 = Model.DiscountedProducts.FirstOrDefault();
+    var discountedItems = Model.DiscountedProducts.TakeLast(4).ToList();
+    var itemPrices = Model.ItemPrices.ToList();
+}
+
+<!-- DISCOUNT-PRODUCT START -->
+<div class="discount-product-area discount-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                <div class="row">
+                    <div class="discount-product-slider dots-bottom-right">
+                        <!-- single-discount-product start -->
+                        <div class="col-lg-12">
+                            <div class="discount-product">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                                        <a href="single-blog.html">
+                                            <img src=@Common.ReturnPicture(itemDisc1.No,PictureSizes.SmallBanner) alt="" asp-append-version="true" />
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                                        <div class="discount-info">
+                                            <h1 class="text-dark-red">
+                                                @Common.ReturnAppliedPrice(itemDisc1.No,itemPrices)
+                                            </h1>
+                                            <p>Stunning prices for an elite range of new furniture.</p>
+                                            <a class="button-2 text-dark-red text-uppercase" href="#">GET DISCOUNT <i class="zmdi zmdi-long-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- single-discount-product end -->
+                        @foreach (var discountItem in discountedItems)
+                        {
+                            <!-- single-discount-product start -->
+                            <div class="col-lg-12">
+                                <div class="discount-product">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                                            <a href="single-blog.html">
+                                                <img src=@Common.ReturnPicture(discountItem.No,PictureSizes.SmallBanner) alt="" asp-append-version="true" />
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                                            <div class="discount-info">
+                                                <h1 class="text-dark-red">Discount @Common.ReturnDiscountPerc(discountItem.No,itemPrices)%</h1>
+                                                <p>Hot! Summer prices are in! Get your special discount now.</p>
+                                                <a class="button-2 text-dark-red text-uppercase" href="#">GET DISCOUNT <i class="zmdi zmdi-long-arrow-right"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- single-discount-product end -->
+                        }                        
+                    </div>
+                </div>
+            </div>
+            <!-- up-comming-product start -->
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="up-comming-product">
+                    <div class="up-comming-img">
+                        <a href="#"><img src="~/img/product/up-comming.jpg" alt="" asp-append-version="true" /></a>
+                    </div>
+                    <div class="up-comming-info text-center">
+                        <div class="up-comming-brief">
+                            <h4 class="post-title"><a href="#">Indoor Furniture</a></h4>
+                            <h4 class="comming-pro-price">$ 200.00</h4>
+                        </div>
+                        <div class="count-down">
+                            <div data-countdown="2018/10/08"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- up-comming-product end -->
+        </div>
+    </div>
+</div>
+<!-- DISCOUNT-PRODUCT END -->

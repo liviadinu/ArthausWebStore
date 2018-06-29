@@ -19,7 +19,6 @@ namespace ArthausWebStore.Models.Interface
         IEnumerable<ItemDivisions> GetAllDivisons();
         IEnumerable<ItemAttributes> GetAllItemsOnSale();
         IEnumerable<ItemAttributes> GetFlaggedList(FlagType flag, int group);
-        IEnumerable<ItemPicture> GetPictures();
     }
 }
 

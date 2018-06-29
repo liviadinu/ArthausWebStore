@@ -1,0 +1,6 @@
+﻿@model ArthausWebStore.ViewModels.HomeViewModel
+@foreach(var brand in Model.ItemBrandsList)
+    {
+    <li><a href="#">@brand.Description.ToString() </a></li>
+   }
+

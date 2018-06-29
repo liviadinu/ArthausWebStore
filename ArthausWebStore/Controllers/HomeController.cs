@@ -38,7 +38,6 @@ namespace ArthausWebStore.Controllers
                 ItemCategoriesList = _itemRepository.GetAllCategories().OrderBy(c => c.PresentationOrder).ToList(),
                 ItemDivisionsList = _itemRepository.GetAllDivisons().OrderBy(d => d.DivisionCode).ToList(),
                 DiscountedPrices = _itemRepository.GetDiscoutnedPrices().ToList(),
-                ProductPictures = _itemRepository.GetPictures().ToList()
             };
             return View(homeViewModel);
         }
@@ -46,6 +45,13 @@ namespace ArthausWebStore.Controllers
         public IActionResult About()
         {
             return View();
+        }
+
+        [Route("ProductQuick",Name ="productsquickvalue")]
+        public IActionResult QuickView(string ItemSKU)
+        {
+           
+            return ViewComponent("ProductQuick", new { SKU  = ItemSKU });
         }
 
         public IActionResult Contact()
@@ -65,7 +71,5 @@ namespace ArthausWebStore.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-
     }
 }

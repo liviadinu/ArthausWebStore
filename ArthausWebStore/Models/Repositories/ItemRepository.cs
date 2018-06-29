@@ -33,7 +33,7 @@ namespace ArthausWebStore.Models
 
         public IEnumerable<ItemAttributes> GetAllItems()
         {
-            return _appDbContext.ItemAttributes.OrderBy(item => item.Description2).ToList();
+            return _appDbContext.ItemAttributes.OrderBy(item => item.No).ToList();
         }
 
         public IEnumerable<ItemAttributes> GetAllItemsOnSale()
@@ -99,7 +99,7 @@ namespace ArthausWebStore.Models
                 case FlagType.AvailableToReserve:
                     return _appDbContext.ItemAttributes.Where(item => item.Reserve == 1).Take(group);
                 case FlagType.NewArrival:
-                    return _appDbContext.ItemAttributes.Take(group);//GetNewArrivals().OrderBy(i => i.Description2).Take(group);
+                    return _appDbContext.ItemAttributes.Take(group);
                 default:
                     return _appDbContext.ItemAttributes.OrderBy(p => p.Description2).Take(group);
             }
@@ -120,9 +120,5 @@ namespace ArthausWebStore.Models
 
         }
 
-        public IEnumerable<ItemPicture> GetPictures()
-        {
-            return _appDbContext.ItemPicture.ToList();
-        }
     }
 }

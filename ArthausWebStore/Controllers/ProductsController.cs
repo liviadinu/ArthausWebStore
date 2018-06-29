@@ -1,53 +1,35 @@
-﻿using ArthausWebStore.Models;
-using ArthausWebStore.Models.Interface;
-using ArthausWebStore.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ArthausWebStore.Models;
+using ArthausWebStore.Models.Interface;
+using ArthausWebStore.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ArthausWebStore.Controllers
 {
     public class ProductsController : Controller
     {
-     
-        private readonly IProductsGrid _pictureRepository;
+        private readonly IProductsGrid _productRepository;
 
-        public ProductsController(IProductsGrid productRepostiory)
+        public ProductsController(IProductsGrid productsGrid)
         {
-            //constructor injection; we receive dbContext from Startup class
-            _pictureRepository = productRepostiory;
+            _productRepository = productsGrid;
         }
-
-        public IActionResult ProductGrid()
+        public IActionResult Products()
         {
-            ViewData["Message"] = "Welcome to Arthuis Furniture Online Shop";
-
-            var productModelView = new ProductsViewModel()
+            var productsViewModel = new ProductsViewModel()
             {
-                //NewProducts = _pictureRepository.GetFlaggedList(FlagType.NewArrival, 8).OrderBy(p => p.Description2).ToList(),
-                //FeaturedProducts = _pictureRepository.GetFlaggedList(FlagType.FeaturedProduct, 8).OrderBy(p => p.Description2).ToList(),
-                //DiscountedProducts = _pictureRepository.GetFlaggedList(FlagType.DiscountedProduct, 8).OrderBy(p => p.Description2).ToList(),
-                //BestSellingProducts = _pictureRepository.GetFlaggedList(FlagType.BestSeller, 8).OrderBy(p => p.Description2).ToList(),
-                //MostViewedProducts = _pictureRepository.GetFlaggedList(FlagType.MostViewed, 8).OrderBy(p => p.Description2).ToList(),
-                //ItemPrices = _pictureRepository.GetAllItemPrices().ToList(),
-                //ItemBrandsList = _pictureRepository.GetAllBrands().OrderBy(b => b.Code).ToList(),
-                //ItemCategoriesList = _pictureRepository.GetAllCategories().OrderBy(c => c.PresentationOrder).ToList(),
-                //ItemDivisionsList = _pictureRepository.GetAllDivisons().OrderBy(d => d.DivisionCode).ToList(),
-                //DiscountedPrices = _pictureRepository.GetDiscoutnedPrices().ToList()
+                CategoryFilter = _productRepository.GetAllCategories().ToList(),
+                ProductGrid = _productRepository.GetAllItems().ToList(),
+                ItemPrices = _productRepository.GetAllItemPrices().ToList(),
+                ColorsFilter = _productRepository.GetVariants().OrderBy(c => c.Color).ToList(),
+                BestBrands = _productRepository.GetAllBrands().ToList(),
+                DivisionFilter = _productRepository.GetAllDivisons().ToList(),
+                ItemFlags = _productRepository.GetFlags().ToList()
             };
-            return View(productModelView);
+            return View(productsViewModel);
         }
-
-
-
-        //public ActionResult GetImage()
-        //{
-
-
-        //}
-
-
     }
 }

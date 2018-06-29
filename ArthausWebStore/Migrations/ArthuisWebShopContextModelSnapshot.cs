@@ -1877,10 +1877,6 @@ namespace ArthausWebStore.Migrations
                     b.Property<int>("CollectionYear")
                         .HasColumnName("Collection Year");
 
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasMaxLength(30);
-
                     b.Property<string>("CountryRegionOfOriginCode")
                         .IsRequired()
                         .HasColumnName("Country_Region of Origin Code")
@@ -2410,36 +2406,6 @@ namespace ArthausWebStore.Migrations
                     b.ToTable("Item Measurement");
                 });
 
-            modelBuilder.Entity("ArthausWebStore.Models.ItemPicture", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("ID")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ItemNo")
-                        .IsRequired()
-                        .HasColumnName("Item No_")
-                        .HasMaxLength(20);
-
-                    b.Property<byte[]>("Picture")
-                        .IsRequired()
-                        .HasColumnType("image");
-
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnName("timestamp");
-
-                    b.Property<string>("WebsiteNo")
-                        .HasColumnName("Website No_")
-                        .HasMaxLength(20);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Item Picture");
-                });
-
             modelBuilder.Entity("ArthausWebStore.Models.ItemPrices", b =>
                 {
                     b.Property<string>("No")
@@ -2546,6 +2512,25 @@ namespace ArthausWebStore.Migrations
                     b.HasKey("ItemNo");
 
                     b.ToTable("Item Stock Levels");
+                });
+
+            modelBuilder.Entity("ArthausWebStore.Models.ItemVariant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Color");
+
+                    b.Property<string>("ItemDescription");
+
+                    b.Property<string>("ItemNo");
+
+                    b.Property<string>("Material");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ItemVariants");
                 });
 
             modelBuilder.Entity("ArthausWebStore.Models.ItemVendor", b =>

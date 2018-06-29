@@ -1,0 +1,96 @@
+﻿@model ArthausWebStore.ViewModels.HomeViewModel
+@using ArthausWebStore.Models.Repositories;
+
+@{
+    var bannerProduct = Model.NewProducts.FirstOrDefault();
+    var featuredProducts = Model.FeaturedProducts.ToList();
+    var itemPrices = Model.ItemPrices.ToList();
+}
+<div class="banner-area pt-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                <!-- Single-banner start -->
+                <div class="single-banner banner-1 banner-4">
+                    <a class="banner-thumb" href="#"><img src=@Common.ReturnPicture(bannerProduct.No,PictureSizes.SmallBanner) alt="" asp-append-version="true" /></a>
+                    <span class="pro-label new-label">new</span>
+                    <span class="price">@Common.ReturnAppliedPrice(bannerProduct.No,itemPrices)</span>
+                    <div class="banner-brief">
+                        <h2 class="banner-title"><a href="#"></a></h2>
+                        <p class="mb-0">Furniture</p>
+                    </div>
+                    <a href="#" class="button-one font-16px" data-text="Buy now">Buy now</a>
+                </div>
+                <!-- Single-banner end -->
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                <!-- Single-banner start -->
+                <div class="single-banner banner-3">
+                    <a class="banner-thumb" href="#"><img src="~/img/banner/4.jpg" alt="" asp-append-version="true" /></a>
+                    <div class="banner-brief">
+                        <h2 class="banner-title">
+                            <a class="text-uppercase" href="#">design by<br />Arthaus<br /> modern <br /><span>-2018</span></a>
+                        </h2>
+                    </div>
+                </div>
+                <!-- Single-banner end -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BANNER-AREA END -->
+<div class="product-area pt-80 pb-30 product-style-2">
+    <div class="container">
+        <!-- Section-title start -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title text-center">
+                    <h2 class="title-border">Featured Products</h2>
+                </div>
+            </div>
+        </div>
+        <!-- Section-title end -->
+        <div class="row cus-row-30">
+            <div class="product-slider arrow-left-right">
+
+                @foreach (var itemProd in featuredProducts)
+                {
+                    <!-- Single-product start -->
+                    <div class="col-lg-12">
+                        <div class="single-product">
+                            <div class="product-img">
+                                <span class="pro-label offer-label">Featured</span>
+                                <span class="pro-price-2">@Common.ReturnAppliedPrice(itemProd.No,itemPrices)</span>
+                                <a href="single-product.html"><img src=@Common.ReturnPicture(itemProd.No,PictureSizes.Thumbnail) alt="" asp-append-version="true" /></a>
+                            </div>
+                            <div class="product-info clearfix text-center">
+                                <div class="fix">
+                                    <h4 class="post-title"><a href="#">@itemProd.Description2</a></h4>
+                                </div>
+                                <div class="fix">
+                                    <span class="pro-rating">
+                                        <a href="#"><i class="zmdi zmdi-star"></i></a>
+                                        <a href="#"><i class="zmdi zmdi-star"></i></a>
+                                        <a href="#"><i class="zmdi zmdi-star"></i></a>
+                                        <a href="#"><i class="zmdi zmdi-star-half"></i></a>
+                                        <a href="#"><i class="zmdi zmdi-star-half"></i></a>
+                                    </span>
+                                </div>
+                                <div class="product-action clearfix">
+                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
+                                    <a href="#" data-toggle="modal" data-target="#productModal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
+                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
+                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Single-product end -->
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PRODUCT-AREA END -->

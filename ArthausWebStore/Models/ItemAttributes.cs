@@ -24,7 +24,6 @@ namespace ArthausWebStore.Models
         public string DivisionCode { get; set; }
         public string SeasonCode { get; set; }
         public string Collection { get; set; }
-        public string Color { get; set; }
         public string Style { get; set; }
         public string Brand { get; set; }
         public string ItemFamilyCode { get; set; }

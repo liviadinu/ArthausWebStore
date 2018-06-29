@@ -34,16 +34,16 @@ namespace ArthausWebStore
 
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            //services.AddNodeServices();
-            //services.Configure<CookiePolicyOptions>(options =>
-            //{
-            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-            //    options.CheckConsentNeeded = context => true;
-            //    options.MinimumSameSitePolicy = SameSiteMode.None;
-            //});
+            services.AddNodeServices();
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
 
             services.AddTransient<ISkuItemsList, ItemRepository>();
-            //services.AddTransient<IProductsGrid, ProductDisplaysRepo>();
+            services.AddTransient<IProductsGrid, ProductRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +61,7 @@ namespace ArthausWebStore
             app.UseStatusCodePages();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+          
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>

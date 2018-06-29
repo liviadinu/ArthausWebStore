@@ -30,7 +30,6 @@ namespace ArthausWebStore.Models
         public virtual DbSet<ItemDivisions> ItemDivisions { get; set; }
         public virtual DbSet<ItemLedgerEntry> ItemLedgerEntry { get; set; }
         public virtual DbSet<ItemMeasurement> ItemMeasurement { get; set; }
-        public virtual DbSet<ItemPicture> ItemPicture { get; set; }
         public virtual DbSet<ItemPrices> ItemPrices { get; set; }
         public virtual DbSet<ItemPromotions> ItemPromotions { get; set; }
         public virtual DbSet<ItemStockLevels> ItemStockLevels { get; set; }
@@ -81,6 +80,7 @@ namespace ArthausWebStore.Models
         public virtual DbSet<WarehouseShipmentLine> WarehouseShipmentLine { get; set; }
         public virtual DbSet<WhseInternalPickHeader> WhseInternalPickHeader { get; set; }
         public virtual DbSet<WhseInternalPickLine> WhseInternalPickLine { get; set; }
+        public virtual DbSet<ItemVariant> ItemVariants { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -1823,10 +1823,6 @@ namespace ArthausWebStore.Models
 
                 entity.Property(e => e.CollectionYear).HasColumnName("Collection Year");
 
-                entity.Property(e => e.Color)
-                    .IsRequired()
-                    .HasMaxLength(30);
-
                 entity.Property(e => e.CountryRegionOfOriginCode)
                     .IsRequired()
                     .HasColumnName("Country_Region of Origin Code")
@@ -2305,30 +2301,7 @@ namespace ArthausWebStore.Models
                 entity.Property(e => e.Width).HasColumnType("decimal(38, 20)");
             });
 
-            modelBuilder.Entity<ItemPicture>(entity =>
-            {
-                entity.ToTable("Item Picture");
-
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.ItemNo)
-                    .IsRequired()
-                    .HasColumnName("Item No_")
-                    .HasMaxLength(20);
-
-                entity.Property(e => e.Picture)
-                    .IsRequired()
-                    .HasColumnType("image");
-
-                entity.Property(e => e.Timestamp)
-                    .HasColumnName("timestamp")
-                    .IsRowVersion();
-
-                entity.Property(e => e.WebsiteNo)
-                    .HasColumnName("Website No_")
-                    .HasMaxLength(20);
-            });
-
+            
             modelBuilder.Entity<ItemPrices>(entity =>
             {
                 entity.HasKey(e => e.No);
