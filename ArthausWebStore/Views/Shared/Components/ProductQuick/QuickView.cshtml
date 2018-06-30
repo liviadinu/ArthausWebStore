@@ -13,7 +13,7 @@
     <div class="modal-product">
         <div class="product-images">
             <div class="main-image images">
-                <img alt="#" src="@Common.ReturnPicture(Model.SKU,PictureSizes.Quickview)" />
+                <img alt="#" src="@Common.ReturnPicture(Model.SKU, PictureSizes.Quickview)" />
             </div>
         </div><!-- .product-images -->
 
@@ -22,33 +22,71 @@
             <div class="price-box-3">
                 <hr />
                 <div class="s-price-box">
-                    
+
                     @if (!showDiscount)
                     {
-                      <span class="old-price">Old Price: @oldPrice</span>
-                      <div></div>
-                      <span class="new-price">New Price: @newPrice</span>
+                        <span class="old-price">Old Price: @oldPrice</span>
+                        <div></div>
+                        <span class="new-price">New Price: @newPrice</span>
                     }
                     else
-                    { 
-                     <span class="new-price"> Price: @oldPrice </span>
+                    {
+                        <span class="new-price"> Price: @oldPrice </span>
                     }
 
                 </div>
                 <hr />
             </div>
             <a href="shop.html" class="see-all">See all features</a>
-            <div class="quick-add-to-cart">
-                <form method="post" class="cart">
-                    <div class="numbers-row">
-                        <input type="number" id="french-hens" value="1">
+
+
+            @{
+                decimal numValue;
+                bool parsed = Decimal.TryParse(Model.LowStock, out numValue);
+                bool outOfStock = numValue == 0;
+                bool lowS = numValue <= 3;
+
+                if (lowS)
+                {
+                    if (outOfStock)
+                    {
+                        <div class="quick-desc">
+                            This item is currently out of stock.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="quick-add-to-cart">
+                            <form method="post" class="cart">
+                                <div class="numbers-row">
+                                    <input type="number" id="french-hens" value="1">
+                                </div>
+                                <button class="single_add_to_cart_button" type="submit">Add to cart</button>
+                            </form>
+                        </div>
+                        <div class="quick-desc">
+                            This item is very low on stock!
+                        </div>
+
+                    }
+
+                }
+                else
+                {
+                    <div class="quick-add-to-cart">
+                        <form method="post" class="cart">
+                            <div class="numbers-row">
+                                <input type="number" id="french-hens" value="1">
+                            </div>
+                            <button class="single_add_to_cart_button" type="submit">Add to cart</button>
+                        </form>
                     </div>
-                    <button class="single_add_to_cart_button" type="submit">Add to cart</button>
-                </form>
-            </div>
-            <div class="quick-desc">
-                @Model.CollectionDetails
-            </div>
+                    <div class="quick-desc">
+                        @Model.CollectionDetails
+                    </div>
+                }
+            }
+
             <div class="social-sharing">
                 <div class="widget widget_socialsharing_widget">
                     <h3 class="widget-title-modal">Share this product</h3>

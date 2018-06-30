@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ArthausWebStore.Models;
+using PagedList;
 
 namespace ArthausWebStore.ViewModels
 {
@@ -16,6 +17,7 @@ namespace ArthausWebStore.ViewModels
         public List<ItemDivisions> DivisionFilter { get; set; }
         public List<ItemCategory> ItemCategoriesList { get; set; }
         public List<ItemVariant> ColorsFilter { get; set; }
+        public IPagedList<ItemAttributes> ProductPages { get; set; }
 
     }
 }

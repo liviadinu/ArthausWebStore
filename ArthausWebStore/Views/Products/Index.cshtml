@@ -1,7 +1,7 @@
 ﻿@model ArthausWebStore.ViewModels.ProductsViewModel
 @using ArthausWebStore.Models.Repositories;
 <!-- HEADING-BANNER START -->
-<div class="heading-banner-area overlay-bg">
+<div class="heading-banner-area overlay-bg" src="~/img/bg/1.jpg" alt="asp-append-version="true"">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -11,8 +11,8 @@
                     </div>
                     <div class="breadcumbs pb-15">
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li>Product grid view</li>
+                            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li>Product Catalog</li>
                         </ul>
                     </div>
                 </div>
@@ -252,7 +252,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="fix mb-20">
-                                                    <span class="pro-price">$ 56.20</span>
+                                                    <span class="pro-price">@newPrice.ToString()</span>
                                                 </div>
                                                 <div class="product-description">
                                                     <p>@String.Format("{0} {1} - {2}", product.SeasonCode, product.Collection,product.CollectionYear)</p>

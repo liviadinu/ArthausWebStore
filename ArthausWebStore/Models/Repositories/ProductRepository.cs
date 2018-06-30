@@ -37,7 +37,7 @@ namespace ArthausWebStore.Models.Repositories
 
         public IEnumerable<ItemAttributes> GetAllItems()
         {
-            return _products.ItemAttributes.ToList();
+            return _products.ItemAttributes.ToList().OrderByDescending(c => c.No);
         }
 
         public IEnumerable<ItemVariant> GetComponentColors(string SKU)

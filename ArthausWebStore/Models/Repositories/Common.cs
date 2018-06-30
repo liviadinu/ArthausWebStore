@@ -87,7 +87,7 @@ namespace ArthausWebStore.Models.Repositories
                      return cloudinary.Api.UrlImgUp.Transform(new Transformation().Background("#ffffff").Height(450).
                           Width(70).Crop("scale")).BuildUrl(String.Format("pictures/{0}.jpeg", SKU));
                 case PictureSizes.SmallBanner:
-                     return cloudinary.Api.UrlImgUp.Transform(new Transformation().Background("#ffffff").Height(470).
+                     return cloudinary.Api.UrlImgUp.Transform(new Transformation().Background("#ffffff").Height(400).
                           Width(470).Crop("scale")).BuildUrl(String.Format("pictures/{0}.jpeg", SKU));
                 //case PictureSizes.SingleMedium:
                 //       return String.Format("~/img/single-product/medium/{0}.jpeg", SKU);

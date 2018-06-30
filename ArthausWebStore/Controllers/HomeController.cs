@@ -35,8 +35,8 @@ namespace ArthausWebStore.Controllers
                 MostViewedProducts = _itemRepository.GetFlaggedList(FlagType.MostViewed, 8).OrderBy(p => p.Description2).ToList(),
                 ItemPrices = _itemRepository.GetAllItemPrices().ToList(),
                 ItemBrandsList = _itemRepository.GetAllBrands().OrderBy(b => b.Code).ToList(),
-                ItemCategoriesList = _itemRepository.GetAllCategories().OrderBy(c => c.PresentationOrder).ToList(),
-                ItemDivisionsList = _itemRepository.GetAllDivisons().OrderBy(d => d.DivisionCode).ToList(),
+                ItemCategoriesList = _itemRepository.GetAllCategories().Take(8).OrderBy(c => c.PresentationOrder).ToList(),
+                ItemDivisionsList = _itemRepository.GetAllDivisons().Take(8).OrderBy(d => d.DivisionCode).ToList(),
                 DiscountedPrices = _itemRepository.GetDiscoutnedPrices().ToList(),
             };
             return View(homeViewModel);
