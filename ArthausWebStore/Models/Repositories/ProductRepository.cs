@@ -42,12 +42,12 @@ namespace ArthausWebStore.Models.Repositories
 
         public IEnumerable<ItemVariant> GetComponentColors(string SKU)
         {
-            return _products.ItemVariants.Where(c => c.ItemNo == SKU).ToList();
+            return _products.ItemVariants.Where(c => c.ItemNo.StartsWith(SKU)).ToList();
         }
 
         public Item GetComponentFlag(string SKU)
         {
-            return _products.Item.Where(i => i.No == SKU).FirstOrDefault();
+            return _products.Item.Where(i => i.No.StartsWith(SKU)).FirstOrDefault();
         }
 
         public ItemAttributes GetComponentProduct(string SKU)
@@ -62,22 +62,24 @@ namespace ArthausWebStore.Models.Repositories
 
         public ItemMeasurement GetItemMeasure(string SKU)
         {
-            return _products.ItemMeasurement.Where(i => i.No == SKU).FirstOrDefault();
+            return _products.ItemMeasurement.Where(i => i.No.StartsWith(SKU)).FirstOrDefault();
         }
 
         public ItemPrices GetPriceComponent(string SKU)
         {
-            return _products.ItemPrices.Where(i => i.No == SKU).FirstOrDefault();
+            return _products.ItemPrices.Where(i => i.No.StartsWith(SKU)).FirstOrDefault();
         }
 
         public ItemStockLevels GetStockComponent(string SKU)
         {
-            return _products.ItemStockLevels.Where(i => i.ItemNo == SKU).FirstOrDefault();
+            return _products.ItemStockLevels.Where(i => i.ItemNo.StartsWith(SKU)).FirstOrDefault();
         }
 
         public IEnumerable<ItemVariant> GetVariants()
         {
             return _products.ItemVariants.ToList();
         }
+
+        
     }
 }

@@ -51,7 +51,7 @@
                     if (outOfStock)
                     {
                         <div class="quick-desc">
-                            This item is currently out of stock.
+                            @String.Format("This item is currently out of stock, but you can make a reservation for it."); 
                         </div>
                     }
                     else
@@ -65,7 +65,8 @@
                             </form>
                         </div>
                         <div class="quick-desc">
-                            This item is very low on stock!
+                           
+                            @String.Format("This item is very low on stock! Only {0} pieces remaining.", numValue.ToString());
                         </div>
 
                     }

@@ -1,20 +1,23 @@
-﻿using System;
+﻿using ArthausWebStore.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ArthausWebStore.Models
+namespace ArthausWebStore
 {
-    public partial class ArthuisWebShopContext : DbContext
+    public class ArthausBackOfficeContext : DbContext
     {
-        public ArthuisWebShopContext()
+        public ArthausBackOfficeContext()
         {
         }
 
-        public ArthuisWebShopContext(DbContextOptions<ArthuisWebShopContext> options)
+        public ArthausBackOfficeContext(DbContextOptions<ArthausBackOfficeContext> options)
             : base(options)
         {
         }
-
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Item> Item { get; set; }
         public virtual DbSet<ItemAttributes> ItemAttributes { get; set; }
@@ -26,6 +29,15 @@ namespace ArthausWebStore.Models
         public virtual DbSet<ItemPrices> ItemPrices { get; set; }
         public virtual DbSet<ItemPromotions> ItemPromotions { get; set; }
         public virtual DbSet<ItemStockLevels> ItemStockLevels { get; set; }
+        public virtual DbSet<ItemVendor> ItemVendor { get; set; }
+        public virtual DbSet<PayableVendorLedgerEntry> PayableVendorLedgerEntry { get; set; }
+        public virtual DbSet<ReturnPolicy> ReturnPolicy { get; set; }
+        public virtual DbSet<ReturnReason> ReturnReason { get; set; }
+        public virtual DbSet<ReturnReceiptHeader> ReturnReceiptHeader { get; set; }
+        public virtual DbSet<ReturnReceiptLine> ReturnReceiptLine { get; set; }
+        public virtual DbSet<ReturnShipmentHeader> ReturnShipmentHeader { get; set; }
+        public virtual DbSet<ReturnShipmentLine> ReturnShipmentLine { get; set; }
+        public virtual DbSet<ReturnsRelatedDocument> ReturnsRelatedDocument { get; set; }
         public virtual DbSet<SalesHeader> SalesHeader { get; set; }
         public virtual DbSet<SalesInvoiceHeader> SalesInvoiceHeader { get; set; }
         public virtual DbSet<SalesInvoiceLine> SalesInvoiceLine { get; set; }
@@ -35,8 +47,14 @@ namespace ArthausWebStore.Models
         public virtual DbSet<SalesShipmentLine> SalesShipmentLine { get; set; }
         public virtual DbSet<SalesStatistics> SalesStatistics { get; set; }
         public virtual DbSet<ServiceBookings> ServiceBookings { get; set; }
+        public virtual DbSet<ServiceContractHeader> ServiceContractHeader { get; set; }
+        public virtual DbSet<ServiceContractLine> ServiceContractLine { get; set; }
+        public virtual DbSet<ServiceHeader> ServiceHeader { get; set; }
+        public virtual DbSet<ServiceInvoiceHeader> ServiceInvoiceHeader { get; set; }
+        public virtual DbSet<ServiceInvoiceLine> ServiceInvoiceLine { get; set; }
         public virtual DbSet<ServiceItem> ServiceItem { get; set; }
         public virtual DbSet<ServiceItemLine> ServiceItemLine { get; set; }
+        public virtual DbSet<ServiceLedgerEntry> ServiceLedgerEntry { get; set; }
         public virtual DbSet<ServiceLine> ServiceLine { get; set; }
         public virtual DbSet<ServiceOrder> ServiceOrder { get; set; }
         public virtual DbSet<ServiceOrderAllocation> ServiceOrderAllocation { get; set; }
@@ -49,9 +67,18 @@ namespace ArthausWebStore.Models
         public virtual DbSet<ServiceProvider> ServiceProvider { get; set; }
         public virtual DbSet<ShippingAgent> ShippingAgent { get; set; }
         public virtual DbSet<ShippingAgentServices> ShippingAgentServices { get; set; }
+        public virtual DbSet<Vendor> Vendor { get; set; }
+        public virtual DbSet<VendorLedgerEntry> VendorLedgerEntry { get; set; }
         public virtual DbSet<Visitors> Visitors { get; set; }
+        public virtual DbSet<WarehouseActivityHeader> WarehouseActivityHeader { get; set; }
+        public virtual DbSet<WarehouseActivityLine> WarehouseActivityLine { get; set; }
+        public virtual DbSet<WarehouseShipmentHeader> WarehouseShipmentHeader { get; set; }
+        public virtual DbSet<WarehouseShipmentLine> WarehouseShipmentLine { get; set; }
+        public virtual DbSet<WhseInternalPickHeader> WhseInternalPickHeader { get; set; }
+        public virtual DbSet<WhseInternalPickLine> WhseInternalPickLine { get; set; }
         public virtual DbSet<ItemVariant> ItemVariants { get; set; }
         public virtual DbSet<ErrorLog> ErrorLog { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

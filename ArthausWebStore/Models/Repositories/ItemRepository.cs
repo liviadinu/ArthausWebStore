@@ -76,12 +76,12 @@ namespace ArthausWebStore.Models
 
         public ItemMeasurement GetItemMeasure(string SKU)
         {
-            return _appDbContext.ItemMeasurement.FirstOrDefault(i => i.No == SKU);
+            return _appDbContext.ItemMeasurement.FirstOrDefault(i => i.No.StartsWith(SKU));
         }
 
         public ItemPrices GetItemPriceBySku(string SKU)
         {
-            return _appDbContext.ItemPrices.FirstOrDefault(i => i.No == SKU);
+            return _appDbContext.ItemPrices.FirstOrDefault(i => i.No.StartsWith(SKU));
         }
 
         public IEnumerable<ItemAttributes> GetFlaggedList(FlagType flag, int group)

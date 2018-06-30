@@ -25,15 +25,15 @@ namespace ArthausWebStore.ViewModels
             Item flags = await GetItemForFlags(SKU);
             var flag = await GetFlag(SKU);
             var lowStock = await GetStock(SKU);
+            
             var measures = await GetMeasurement(SKU);
-            var stock = await GetLowItemStock(SKU);
 
             var product = new ProductQuickViewModel()
             {
                 SKU = SKU,
                 Description = details.Description2,
                 CollectionDetails = String.Format("{0} Collection {1} - {2},  By {3}",details.SeasonCode ,details.Collection,details.CollectionYear, details.Brand ),
-                LowStock = stock.ToString(),
+                LowStock = lowStock.SellableStock.ToString(),
                 Prices = prices,
                 Flags = flag
             };
@@ -69,10 +69,6 @@ namespace ArthausWebStore.ViewModels
             return Task.Run(() => _products.GetComponentProduct(SKU));
         }
 
-        private Task<ItemStockLevels> GetLowItemStock(string SKU)
-        {
-            return Task.Run(() => _products.GetStockComponent(SKU));
-        }
         
         private Task<Item> GetItemForFlags(string SKU)
         {

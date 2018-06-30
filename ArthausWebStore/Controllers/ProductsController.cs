@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ArthausWebStore.Models;
+using ArthausWebStore.Models.Repositories;
 using ArthausWebStore.Models.Interface;
 using ArthausWebStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using PagedList;
-using PagedList.Mvc;
+using X.PagedList;
+using X.PagedList.Mvc;
 
 namespace ArthausWebStore.Controllers
 {
@@ -20,46 +21,55 @@ namespace ArthausWebStore.Controllers
             _productRepository = productsGrid;
         }
 
-        public IActionResult Index(string sortOrder,string currentFilter,string searchString, int? page)
-        {
-            
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "descript_desc" : "";
+        public IActionResult Index(string colorFilter,string searchString, string Category, decimal?[] priceRange, int? page)
+        {            
+            //ViewBag.CurrentSort = sortOrder;
+            //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "descript_desc" : "";
             //ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-
-
             if (searchString != null)
             {
                 page = 1;
             }
-            else
-            {
-                searchString = currentFilter;
-            }
-            int pageSize = 3;
+
+            int pageSize = 9;
             int pageNumber = (page ?? 1);
+
+            ViewBag.ColorFilter = colorFilter;
+            //ViewBag.PriceRange = priceRange[];
             ViewBag.CurrentFilter = searchString;
-            var products = _productRepository.GetAllItems().ToPagedList(pageNumber, pageSize);
-           
+
+            var products = _productRepository.GetAllItems().OrderBy(i => i.No).ToList();
+            var prices = _productRepository.GetAllItemPrices().ToList();
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 products = products.Where(p => p.Description2.Contains(searchString) ||
-                                     p.SearchDescription.Contains(searchString)).ToPagedList(pageNumber, pageSize);                                   
+                                     p.SearchDescription.Contains(searchString)).ToList();                                   
             }
 
-            var productsViewModel = new ProductsViewModel()
+            var productGrid = new List<ProductsViewModel>();
+
+            foreach (var item in products)
             {
-                ItemCategoriesList = _productRepository.GetAllCategories().Take(8).ToList(),
-                ProductGrid = _productRepository.GetAllItems().ToList(),
-                ProductPages = products,
-                ItemPrices = _productRepository.GetAllItemPrices().ToList(),
-                ColorsFilter = _productRepository.GetVariants().OrderBy(c => c.Color).ToList(),
-                ItemBrandsList = _productRepository.GetAllBrands().ToList(),
-                DivisionFilter = _productRepository.GetAllDivisons().Take(8).ToList(),
-                ItemFlags = _productRepository.GetFlags().ToList()
+                productGrid.Add(new ProductsViewModel
+                {
+                    ProductNo = item.No,
+                    Description = item.Description2,
+                    NormalPrice = Common.ReturnNormalPrice(item.No,prices),
+                    AppliedPrice = Common.ReturnAppliedPrice(item.No,prices),
+                    OnSale = Common.ShowDiscounted(item.No,prices),
+                    Collection = item.Collection,
+                    CollectionYear = item.CollectionYear.ToString(),
+                    SeasonCode =item.SeasonCode,
+                });
             };
 
-            return View(productsViewModel);
+            var onePageProducts = productGrid.ToPagedList(pageNumber, pageSize);
+            ViewBag.OnePageOfProducts = onePageProducts;
+            ViewBag.PageCount = productGrid.Count * pageNumber;
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.TotalResults = products.Count;
+            return View();
         }
 
         public IActionResult ViewAccessories()
@@ -67,7 +77,5 @@ namespace ArthausWebStore.Controllers
 
             return View();
         }
-
-
     }
 }
