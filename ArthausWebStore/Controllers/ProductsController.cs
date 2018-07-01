@@ -21,7 +21,7 @@ namespace ArthausWebStore.Controllers
             _productRepository = productsGrid;
         }
 
-        public IActionResult Index(string colorFilter,string searchString, string Category, decimal?[] priceRange, int? page)
+        public IActionResult Index(string colorFilter,string searchString, string Category, decimal? priceRange, string brand, int? page)
         {            
             //ViewBag.CurrentSort = sortOrder;
             //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "descript_desc" : "";
@@ -34,11 +34,17 @@ namespace ArthausWebStore.Controllers
             int pageSize = 9;
             int pageNumber = (page ?? 1);
 
-            //ViewBag.ColorFilter = colorFilter;
-            //ViewBag.PriceRange = priceRange[];
+            ViewBag.ColorFilter = colorFilter;
+            ViewBag.BrandFilter = brand;
+            ViewBag.PriceRange = priceRange;
             ViewBag.CurrentFilter = searchString;
-
             var products = _productRepository.GetAllItems().OrderBy(i => i.No).ToList();
+
+            if (!String.IsNullOrEmpty(brand))
+            {
+                products = products.Where(p => p.Brand.Contains(brand.ToUpper())).ToList();
+            }
+           
             var prices = _productRepository.GetAllItemPrices().ToList();
 
             if (!String.IsNullOrEmpty(searchString))
@@ -62,12 +68,29 @@ namespace ArthausWebStore.Controllers
                     SeasonCode =item.SeasonCode,
                 });
             };
-
             var onePageProducts = productGrid.ToPagedList(pageNumber, pageSize);
             ViewBag.OnePageOfProducts = onePageProducts;
-            ViewBag.PageCount = productGrid.Count * pageNumber;
+            if (pageNumber == 1)
+            {
+                @ViewBag.PageResult = 1;
+            }
+            else
+            {
+                @ViewBag.PageResult = (pageNumber - 1) * 9;
+            }
+           
             ViewBag.PageNumber = pageNumber;
             ViewBag.TotalResults = products.Count;
+
+            var pageCount = pageNumber * 9;
+            if (pageCount < products.Count)
+            {
+                ViewBag.PageCount = pageNumber * 9;
+            }
+            else
+            {
+                ViewBag.PageCount = products.Count;
+            }
             return View();
         }
 

@@ -58,7 +58,7 @@ namespace ArthausWebStore
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-            app.UseStatusCodePages();
+            app.UseStatusCodePagesWithReExecute("/StatusCode/{0}");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
           

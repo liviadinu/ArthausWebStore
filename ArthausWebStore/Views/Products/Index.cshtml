@@ -37,15 +37,13 @@
 
                     @using (Html.BeginForm("Index", "Products", System.Web.Mvc.FormMethod.Post))
                     {
-                        <form action="#">
-
-                                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-                                <input type="text" placeholder="Search here..." />
-
-                            <button type="submit">
-                                <i class="zmdi zmdi-search"></i>
-                            </button>
-                        </form>
+                    <form action="#">
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new {placeholder= "Search here.." })
+                        <input type="text" />
+                        <button type="submit">
+                        <i class="zmdi zmdi-search"></i>
+                        </button>
+                    </form>
                     }
 
                 </aside>
@@ -148,26 +146,20 @@
                 <!-- Widget-Size start -->
                 <aside class="widget widget-size mb-30">
                     <div class="widget-title">
-                        <h4>Size</h4>
+                        <h4>Catalog</h4>
                     </div>
                     <div class="widget-info size-filter clearfix">
-                        <ul>
-                            <li><a href="#">M</a></li>
-                            <li class="active"><a href="#">S</a></li>
-                            <li><a href="#">L</a></li>
-                            <li><a href="#">SL</a></li>
-                            <li><a href="#">XL</a></li>
-                        </ul>
+                        <!-- Widget-banner start -->
+                        <aside class="widget widget-banner hidden-sm">
+                            <div class="widget-info widget-banner-img">
+                                <a href="404.html"><img src="img/banner/5.jpg" alt="" /></a>
+                            </div>
+                        </aside>
+                        <!-- Widget-banner end -->
                     </div>
                 </aside>
                 <!-- Widget-Size end -->
-                <!-- Widget-banner start -->
-                <aside class="widget widget-banner hidden-sm">
-                    <div class="widget-info widget-banner-img">
-                        <a href="#"><img src="img/banner/5.jpg" alt="" /></a>
-                    </div>
-                </aside>
-                <!-- Widget-banner end -->
+               
             </div>
             <div class="col-md-9 col-sm-12 col-xs-12">
                 <!-- Shop-Content End -->
@@ -179,7 +171,7 @@
                             <li><a href="#list-view" data-toggle="tab"><i class="zmdi zmdi-view-list"></i></a></li>
                         </ul>
                         <div class="showing text-right hidden-xs">
-                            <p class="mb-0">Showing  @ViewBag.LastPageCount - @ViewBag.PageCount  of  @ViewBag.TotalResults Results</p>
+                            <p class="mb-0">Showing  @ViewBag.PageResult  -   @ViewBag.PageCount  of   @ViewBag.TotalResults  Results</p>
                         </div>
                     </div>
                     <!-- Tab panes -->
@@ -240,8 +232,8 @@
                                                         <span class="pro-label sale-label">Sale</span>
                                                     }
                                                 }
-                                            <span class="pro-price-2">@product.AppliedPrice</span>
-                                            <a href="single-product.html"><img src="@Common.ReturnPicture(product.ProductNo,PictureSizes.Thumbnail)" alt="" /></a>
+                                                <span class="pro-price-2">@product.AppliedPrice</span>
+                                                <a href="single-product.html"><img src="@Common.ReturnPicture(product.ProductNo,PictureSizes.Thumbnail)" alt="" /></a>
                                             </div>
                                             <div class="product-info">
                                                 <div class="fix">
@@ -263,7 +255,7 @@
                                                 </div>
                                                 <div class="clearfix">
                                                     <div class="cart-plus-minus">
-                                                        <input type="text" value="01" name="qtybutton" class="cart-plus-minus-box">
+                                                        <input type="text" value="02" name="qtybutton" class="cart-plus-minus-box">
                                                     </div>
                                                     <div class="product-action clearfix">
                                                         <a href="#" data-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
@@ -275,7 +267,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Single-product end -->
+                                    <!-- Single-product end -->                                  
                                 }
                             </div>
                         </div>
