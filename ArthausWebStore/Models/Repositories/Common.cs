@@ -14,8 +14,6 @@ namespace ArthausWebStore.Models.Repositories
     public static class Common
 
     {
-        
-
         public static async Task LogError(string message,string SKU, string exception)
         {
             using (var context = new ArthuisWebShopContext())
@@ -56,7 +54,7 @@ namespace ArthausWebStore.Models.Repositories
             {
                 expectedPrice = 100;
                 var message = "Cannot find Unit Price incl. VAT for this item.";
-                var exceptionText = "";// ex.InnerException.ToString();
+                var exceptionText = ex.Message.ToString();// ex.InnerException.ToString();
                 Task.Run(() => LogError(message,SKU,exceptionText));
             }
 
@@ -88,32 +86,6 @@ namespace ArthausWebStore.Models.Repositories
             return expectedPrice.ToString("c");
         }
 
-        //public static string ReturnAppliedPrice(string SKU)
-        //{
-        //    using (var context = new ArthuisWebShopContext())
-        //    {
-        //        var price = context.ItemPrices.Where(i => i.No.StartsWith(SKU)).FirstOrDefault();
-        //        decimal expectedPrice = 0;
-        //        try
-        //        {
-        //            expectedPrice = price.UnitPriceIncludingVat.GetValueOrDefault();
-
-        //            if (price.EndDateSales >= System.DateTime.Today && price.DiscountPerc.Value != 0 && price.DiscountPerc.HasValue)
-        //            {
-        //                expectedPrice = expectedPrice - (expectedPrice * price.DiscountPerc.Value / 100);
-        //            }
-        //        }
-        //        catch (NullReferenceException ex)
-        //        {
-        //            expectedPrice = 100;
-        //            var message = "Cannot find Unit Price incl. VAT for this item.";
-        //            var exceptionText = ex.InnerException.ToString();
-        //            Task.Run(() => LogError(message, SKU, exceptionText));
-        //        }
-        //        return expectedPrice.ToString("c");
-        //    }
-        //}
-
         public static string ReturnNormalPrice(string SKU, IEnumerable<ItemPrices> priceList)
         {
             decimal expectedPrice = 100;
@@ -132,27 +104,6 @@ namespace ArthausWebStore.Models.Repositories
             return expectedPrice.ToString("c");
 
         }
-
-        //public static string ReturnNormalPrice(string SKU)
-        //{
-        //    using (var context = new ArthuisWebShopContext())
-        //    {
-        //        var price = context.ItemPrices.Where(i => i.No.StartsWith(SKU)).FirstOrDefault();
-        //        decimal expectedPrice = 100;
-        //        if (price != null)
-        //        {
-        //            expectedPrice = price.UnitPriceIncludingVat.GetValueOrDefault();
-        //        }
-        //        else
-        //        {
-        //            var message = "Cannot find Unit Price incl. VAT for this item.";
-        //            var exceptionText = "Return Normal Price from string";
-        //            Task.Run(() => LogError(message, SKU, exceptionText));
-        //        }
-
-        //        return expectedPrice.ToString("c");
-        //    }
-        //}
 
         public static bool ShowDiscounted(string SKU, IEnumerable<ItemPrices> prices)
         {
@@ -177,34 +128,6 @@ namespace ArthausWebStore.Models.Repositories
             }
             return false;
         }
-
-        //public static bool ShowDiscounted(string SKU)
-        //{
-        //    using (var context = new ArthuisWebShopContext())
-        //    {
-        //        decimal normalPrice, discountPrice = 0;
-        //        var price = context.ItemPrices.Where(i => i.No.StartsWith(SKU)).FirstOrDefault();
-        //        if (price != null)
-        //        {
-        //            normalPrice = price.UnitPriceIncludingVat.GetValueOrDefault();
-        //            discountPrice = normalPrice;
-
-        //            if (price.EndDateSales >= System.DateTime.Today && price.DiscountPerc.Value != 0 && price.DiscountPerc.HasValue)
-        //            {
-        //                discountPrice = normalPrice - (normalPrice * price.DiscountPerc.Value / 100);
-        //            }
-        //            return discountPrice == normalPrice;
-        //        }
-        //        else
-        //        {
-        //            var message = "Cannot find Unit Price incl. VAT for this item.";
-        //            var exceptionText = "Show Discount from SKU string";
-        //            Task.Run(() => LogError(message, SKU, exceptionText));
-        //        }
-        //        return false;
-        //    }
-        //}
-
         public static string ReturnDiscountPerc(string SKU, IEnumerable<ItemPrices> priceList)
         {
             var price = priceList.Where(i => i.No.StartsWith(SKU)).FirstOrDefault();

@@ -3,6 +3,8 @@
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
 @using ArthausWebStore.Models.Repositories;
+@using System.Web.Mvc;
+
 
 <!-- HEADING-BANNER START -->
 <div class="heading-banner-area overlay-bg" src="~/img/bg/1.jpg" alt="asp-append-version=" true"">
@@ -32,12 +34,20 @@
             <div class="col-md-3 col-sm-12 col-xs-12">
                 <!-- Widget-Search start -->
                 <aside class="widget widget-search mb-30">
-                    <form action="#">
-                        <input type="text" placeholder="Search here..." @Html.TextBox("SearchString", ViewBag.CurrentFilter as string) />
-                        <button type="submit">
-                            <i class="zmdi zmdi-search"></i>
-                        </button>
-                    </form>
+
+                    @using (Html.BeginForm("Index", "Products", System.Web.Mvc.FormMethod.Post))
+                    {
+                        <form action="#">
+
+                                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                                <input type="text" placeholder="Search here..." />
+
+                            <button type="submit">
+                                <i class="zmdi zmdi-search"></i>
+                            </button>
+                        </form>
+                    }
+
                 </aside>
                 <!-- Widget-search end -->
                 <!-- Widget-Categories start -->
