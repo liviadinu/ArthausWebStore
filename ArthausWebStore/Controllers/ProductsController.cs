@@ -34,7 +34,7 @@ namespace ArthausWebStore.Controllers
             int pageSize = 9;
             int pageNumber = (page ?? 1);
 
-            ViewBag.ColorFilter = colorFilter;
+            //ViewBag.ColorFilter = colorFilter;
             //ViewBag.PriceRange = priceRange[];
             ViewBag.CurrentFilter = searchString;
 
@@ -43,8 +43,7 @@ namespace ArthausWebStore.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                products = products.Where(p => p.Description2.Contains(searchString) ||
-                                     p.SearchDescription.Contains(searchString)).ToList();                                   
+                products = products.Where(p => p.SearchDescription.Contains(searchString.ToUpper()) || p.Description2.Contains(searchString)).ToList();                                   
             }
 
             var productGrid = new List<ProductsViewModel>();
