@@ -21,11 +21,12 @@ namespace ArthausWebStore.Controllers
             _productRepository = productsGrid;
         }
 
-        public IActionResult Index(string colorFilter,string searchString, string Category, decimal? priceRange, string brand, int? page)
-        {            
-            //ViewBag.CurrentSort = sortOrder;
-            //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "descript_desc" : "";
-            //ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+        public IActionResult Index(string colorFilter,string searchString, string Category, 
+                                   string priceRange, string brand, int? page)
+        {
+
+            Category = ViewBag.CurrentFilter;
+
             if (searchString != null)
             {
                 page = 1;
@@ -34,9 +35,6 @@ namespace ArthausWebStore.Controllers
             int pageSize = 9;
             int pageNumber = (page ?? 1);
 
-            ViewBag.ColorFilter = colorFilter;
-            ViewBag.BrandFilter = brand;
-            ViewBag.PriceRange = priceRange;
             ViewBag.CurrentFilter = searchString;
             var products = _productRepository.GetAllItems().OrderBy(i => i.No).ToList();
 
@@ -47,7 +45,7 @@ namespace ArthausWebStore.Controllers
            
             var prices = _productRepository.GetAllItemPrices().ToList();
 
-            if (!String.IsNullOrEmpty(searchString))
+                if (!String.IsNullOrEmpty(searchString))
             {
                 products = products.Where(p => p.SearchDescription.Contains(searchString.ToUpper()) || p.Description2.Contains(searchString)).ToList();                                   
             }

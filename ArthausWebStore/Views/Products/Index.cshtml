@@ -1,4 +1,4 @@
-﻿@*//@model X.PagedList.IPagedList<ArthausWebStore.ViewModels.ProductsViewModel>*@
+﻿@model X.PagedList.IPagedList<ArthausWebStore.ViewModels.ProductsViewModel>
 
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
@@ -37,13 +37,13 @@
 
                     @using (Html.BeginForm("Index", "Products", System.Web.Mvc.FormMethod.Post))
                     {
-                    <form action="#">
-                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new {placeholder= "Search here.." })
-                        <input type="text" />
-                        <button type="submit">
-                        <i class="zmdi zmdi-search"></i>
-                        </button>
-                    </form>
+                        <form action="#">
+                            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { placeholder = "Search here.." })
+                            <input type="text" />
+                            <button type="submit">
+                                <i class="zmdi zmdi-search"></i>
+                            </button>
+                        </form>
                     }
 
                 </aside>
@@ -118,9 +118,10 @@
                         <div class="price_filter">
                             <div class="price_slider_amount">
                                 <input type="submit" value="You range :" />
-                                <input type="text" id="amount" name="price" placeholder="Add Your Price" />
+                                <input type="text" id="amount22" name="price" placeholder="Add Your Price" />
+                              
                             </div>
-                            <div id="slider-range"></div>
+                            <div id="slider-range22"></div>
                         </div>
                     </div>
                 </aside>
@@ -159,7 +160,7 @@
                     </div>
                 </aside>
                 <!-- Widget-Size end -->
-               
+
             </div>
             <div class="col-md-9 col-sm-12 col-xs-12">
                 <!-- Shop-Content End -->
@@ -190,8 +191,8 @@
                                                         <span class="pro-label sale-label">Sale</span>
                                                     }
                                                 }
-                                            <span class="pro-price-2">@product.AppliedPrice</span>
-                                            <a href="single-product.html"><img src="@Common.ReturnPicture(product.ProductNo,PictureSizes.Thumbnail)" alt="" /></a>
+                                                <span class="pro-price-2">@product.AppliedPrice</span>
+                                                <a href="single-product.html"><img src="@Common.ReturnPicture(product.ProductNo,PictureSizes.Thumbnail)" alt="" /></a>
                                             </div>
                                             <div class="product-info clearfix text-center">
                                                 <div class="fix">
@@ -208,7 +209,7 @@
                                                 </div>
                                                 <div class="product-action clearfix">
                                                     <a href="#" data-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
-                                                    <a asp-controller="Home" asp-action="QuickView" asp-route-ItemSKU=@product.ProductNo data-target="#productMod" data-toggle="modal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
+                                                    <a asp-controller="Home" asp-action="QuickView" asp-route-ItemSKU=@product.ProductNo data-target="#productModal" data-toggle="modal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
                                                     <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
                                                     <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                 </div>
@@ -259,7 +260,7 @@
                                                     </div>
                                                     <div class="product-action clearfix">
                                                         <a href="#" data-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
-                                                        <a asp-controller="Home" asp-action="QuickView" asp-route-ItemSKU=@product.ProductNo data-target="#productMod" data-toggle="modal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
+                                                        <a asp-controller="Home" asp-action="QuickView" asp-route-ItemSKU=@product.ProductNo data-target="#productModal" data-toggle="modal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
                                                         <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
                                                         <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                     </div>
@@ -267,19 +268,19 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Single-product end -->                                  
+                                    <!-- Single-product end -->
                                 }
                             </div>
                         </div>
                     </div>
                     <!-- Pagination start -->
                     <div class="shop-pagination  text-center">
-                      <div class="pagination">
-                          <ul>
-                              @Html.PagedListPager((IPagedList)ViewBag.OnePageOfProducts, page => Url.Action("Index", new { page = page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
-                          </ul>
-                         </div>
-                      </div>
+                        <div class="pagination">
+                            <ul>
+                                @Html.PagedListPager((IPagedList)ViewBag.OnePageOfProducts, page => Url.Action("Index", new { page = page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+                            </ul>
+                        </div>
+                    </div>
                     <!-- Pagination end -->
                 </div>
                 <!-- Shop-Content End -->
@@ -293,7 +294,7 @@
 <!-- QUICKVIEW PRODUCT -->
 <div id="quickview-wrapper">
     <!-- Modal -->
-    <div class="modal fade" id="productMod" tabindex="-1" role="dialog">
+    <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
 
@@ -306,12 +307,11 @@
 <!-- END QUICKVIEW PRODUCT -->
 @section scripts {
     @* The normal bootstrap behavior is to only grab the content for the modal once, if you need to pull in different partial views then the data on the modal will have to be cleared.*@
-    <script type="text/javascript">
-
+<script type="text/javascript">
         $(function () {
 
             // boostrap 4 load modal example from docs
-            $('#productMod').on('show.bs.modal', function (event) {
+            $('#productModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget); // Button that triggered the modal
                 var url = button.attr("href");
                 var modal = $(this);
@@ -320,5 +320,34 @@
                 modal.find('.modal-content').load(url);
             });
         });
-    </script>
+
+
+        /*----------------------------
+            price-slider active
+        ------------------------------ */
+        $("#slider-range22").slider({
+            range: true,
+            min: 0,
+            max: 150,
+            values: [0, 999],
+            slide: function (event, ui) {
+                $("#amount22").val("$" + ui.values[0] + " - $" + ui.values[1]);
+
+            }
+        });
+        $("#amount22").val("$" + $("#slider-range22").slider("values", 0) +
+            " - $" + $("#slider-range22").slider("values", 1));
+
+
+    $("#slider-range22").on("slide", function (event, ui) {
+       // var sliderMaxVal = $("#amount22") .text(ui.values[1]);
+        //var sliderMinVal = $("#amount22").text(ui.values[0]);
+        //var button = $(event.relatedTarget); // Button that triggered the modal
+        //var url = "Products/Index?priceRange="+ sliderMaxVal;
+        $("#grid-view").load("Products/Index?priceRange=", { priceRange: ui.values[0] + ';' + ui.values[1] });
+
+
+
+        });
+</script>
 }

@@ -173,7 +173,7 @@
 ------------------------------ */  
 	$( "#slider-range" ).slider({
 		range: true,
-		min: 50,
+		min: 0,
 		max: 2000,
 		values: [ 0, 999 ],
 		slide: function( event, ui ) {
