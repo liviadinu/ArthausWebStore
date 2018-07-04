@@ -11,8 +11,8 @@ namespace ArthausWebStore.ViewModels
 {
     public class ProductQuick : ViewComponent
     {
-        private readonly IProductsGrid _products;
-        public ProductQuick(IProductsGrid priductContext)
+        private readonly ArthuisWebShopContext _products;
+        public ProductQuick(ArthuisWebShopContext priductContext)
         {
             _products = priductContext;
         }
@@ -22,7 +22,7 @@ namespace ArthausWebStore.ViewModels
             List<ItemVariant> colors = await GetColorsAsync(SKU);
             ItemAttributes details = await GetItemAttributes(SKU);
             ItemPrices prices = await GetPrices(SKU);
-            Item flags = await GetItemForFlags(SKU);
+            Item flags = await GetFlag(SKU);
             var flag = await GetFlag(SKU);
             var lowStock = await GetStock(SKU);
             
@@ -42,38 +42,31 @@ namespace ArthausWebStore.ViewModels
 
         private Task<List<ItemVariant>> GetColorsAsync(string SKU)
         {
-            return Task.Run(() => _products.GetVariants().Where(c => c.ItemNo == SKU).ToList());
+            return Task.Run(() => _products.ItemVariants.Where(c => c.ItemNo == SKU).ToList());
         }
         private Task<ItemPrices> GetPrices(string SKU)
         {
-            return Task.Run(() => _products.GetPriceComponent(SKU));
+            return Task.Run(() => _products.ItemPrices.Where(p => p.No.StartsWith(SKU.ToUpper())).FirstOrDefault());
         }
 
         private Task<Item> GetFlag(string SKU)
         {
-            return Task.Run(() => _products.GetComponentFlag(SKU));
+            return Task.Run(() => _products.Item.Where(p => p.No.StartsWith(SKU.ToUpper())).FirstOrDefault());
         }
 
         private Task<ItemStockLevels> GetStock(string SKU)
         {
-            return Task.Run(() => _products.GetStockComponent(SKU));
+            return Task.Run(() => _products.ItemStockLevels.Where(c => c.ItemNo == SKU).FirstOrDefault());
         }
 
         private Task<ItemMeasurement> GetMeasurement(string SKU)
         {
-            return Task.Run(() => _products.GetItemMeasure(SKU));
+            return Task.Run(() => _products.ItemMeasurement.Where(m => m.No.StartsWith(SKU.ToUpper())).FirstOrDefault());
         }
 
         private Task<ItemAttributes> GetItemAttributes(string SKU)
         {
-            return Task.Run(() => _products.GetComponentProduct(SKU));
+            return Task.Run(() => _products.ItemAttributes.Where(c => c.No == SKU).FirstOrDefault());
         }
-
-        
-        private Task<Item> GetItemForFlags(string SKU)
-        {
-            return Task.Run(() => _products.GetComponentFlag(SKU));
-        }
-
     }
 }

@@ -51,7 +51,7 @@
                                         <div class="product-img">
                                             <span class="pro-label new-label">new</span>
                                             <span class="pro-price-2">
-                                                @Common.ReturnAppliedPrice(item.No, itemPrices)
+                                                @await Common.ReturnAppliedPrice(item.No)
                                             </span>
                                             <a href="single-product.html"><img src="@Common.ReturnPicture(item.No,PictureSizes.Thumbnail)" alt="" asp-append-version="true" /></a>
                                         </div>
@@ -91,7 +91,7 @@
                                     <div class="single-product">
                                         <div class="product-img">
                                             <span class="pro-label new-label">best buy</span>
-                                            <span class="pro-price-2">@Common.ReturnAppliedPrice(item.No, itemPrices)</span>
+                                            <span class="pro-price-2">@await Common.ReturnAppliedPrice(item.No)</span>
                                             <a href="single-product.html"><img src="@Common.ReturnPicture(item.No,PictureSizes.Thumbnail)" alt="" asp-append-version="true" /></a>
                                         </div>
                                         <div class="product-info clearfix text-center">
@@ -132,7 +132,7 @@
                                     <div class="single-product">
                                         <div class="product-img">
                                             <span class="pro-label offer-label">featured</span>
-                                            <span class="pro-price-2">@Common.ReturnAppliedPrice(item.No, itemPrices)</span>
+                                            <span class="pro-price-2">@await Common.ReturnAppliedPrice(item.No)</span>
                                             <a href="single-product.html"><img src=@Common.ReturnPicture(item.No,PictureSizes.Thumbnail) alt="" asp-append-version="true" /></a>
                                         </div>
                                         <div class="product-info clearfix text-center">
@@ -172,7 +172,7 @@
                                     <div class="single-product">
                                         <div class="product-img">
                                             <span class="pro-label sale-label">sale</span>
-                                            <span class="pro-price-2">@Common.ReturnAppliedPrice(item.No, itemPrices)</span>
+                                            <span class="pro-price-2">@await Common.ReturnAppliedPrice(item.No)</span>
                                             <a href="single-product.html"><img src="@Common.ReturnPicture(item.No,PictureSizes.Thumbnail)" alt="" asp-append-version="true" /></a>
                                         </div>
                                         <div class="product-info clearfix text-center">

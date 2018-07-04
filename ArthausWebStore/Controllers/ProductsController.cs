@@ -5,96 +5,78 @@ using System.Threading.Tasks;
 using ArthausWebStore.Models;
 using ArthausWebStore.Models.Repositories;
 using ArthausWebStore.Models.Interface;
+using ArthausWebStore.Models.PageHelpers;
 using ArthausWebStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using X.PagedList;
-using X.PagedList.Mvc;
+
 
 namespace ArthausWebStore.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly IProductsGrid _productRepository;
+        private readonly ArthuisWebShopContext _productRepository;
 
-        public ProductsController(IProductsGrid productsGrid)
+        public ProductsController(ArthuisWebShopContext productsGrid)
         {
             _productRepository = productsGrid;
         }
 
-        public IActionResult Index(string colorFilter,string searchString, string Category, 
-                                   string priceRange, string brand, int? page)
+        public async Task<IActionResult> Index(string colorFilter,string searchString, string priceRange, string Category, 
+                                   string brand, int? page)
         {
-
-            Category = ViewBag.CurrentFilter;
-
-            if (searchString != null)
-            {
-                page = 1;
-            }
-
             int pageSize = 9;
             int pageNumber = (page ?? 1);
+            PagedResult<ItemAttributes> products = new PagedResult<ItemAttributes>();
+            IEnumerable<ItemPrices> prices = new List<ItemPrices>();
 
             ViewBag.CurrentFilter = searchString;
-            var products = _productRepository.GetAllItems().OrderBy(i => i.No).ToList();
+            ViewBag.PriceRange = priceRange;
 
-            if (!String.IsNullOrEmpty(brand))
+            if (!String.IsNullOrEmpty(priceRange))
             {
-                products = products.Where(p => p.Brand.Contains(brand.ToUpper())).ToList();
-            }
-           
-            var prices = _productRepository.GetAllItemPrices().ToList();
+                priceRange = priceRange.Replace("$", "");
+                priceRange = priceRange.Replace(" ", "");
+                decimal[] range = priceRange.Split('-').Select(decimal.Parse).ToArray();
+                prices = _productRepository.ItemPrices.Where(p => p.UnitPriceIncludingVat >= range[0] & p.UnitPriceIncludingVat <= range[1]);
 
+                var query = from sp in _productRepository.ItemAttributes
+                            join p in prices on sp.No equals p.No
+                            select sp;
                 if (!String.IsNullOrEmpty(searchString))
-            {
-                products = products.Where(p => p.SearchDescription.Contains(searchString.ToUpper()) || p.Description2.Contains(searchString)).ToList();                                   
-            }
-
-            var productGrid = new List<ProductsViewModel>();
-
-            foreach (var item in products)
-            {
-                productGrid.Add(new ProductsViewModel
                 {
-                    ProductNo = item.No,
-                    Description = item.Description2,
-                    NormalPrice = Common.ReturnNormalPrice(item.No,prices),
-                    AppliedPrice = Common.ReturnAppliedPrice(item.No,prices),
-                    OnSale = Common.ShowDiscounted(item.No,prices),
-                    Collection = item.Collection,
-                    CollectionYear = item.CollectionYear.ToString(),
-                    SeasonCode =item.SeasonCode,
-                });
-            };
-            var onePageProducts = productGrid.ToPagedList(pageNumber, pageSize);
-            ViewBag.OnePageOfProducts = onePageProducts;
-            if (pageNumber == 1)
-            {
-                @ViewBag.PageResult = 1;
+                    products = await query.Where(q => q.SearchDescription.Contains(searchString.ToUpper()) || q.Description2.Contains(searchString)).
+                               GetPagedAsync(pageNumber, pageSize);
+                }
+                else
+                {
+                    products = await query.GetPagedAsync(pageNumber, pageSize);
+                }
             }
             else
             {
-                @ViewBag.PageResult = (pageNumber - 1) * 9;
+               prices = _productRepository.ItemPrices.ToList();
+               products = await _productRepository.ItemAttributes.OrderBy(i => i.No).GetPagedAsync(pageNumber, pageSize);
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    products = await _productRepository.ItemAttributes.Where
+                         (p => p.SearchDescription.Contains(searchString.ToUpper()) || p.Description2.Contains(searchString)).
+                         GetPagedAsync(pageNumber, pageSize);
+                }
+                else
+                {
+                    products = await _productRepository.ItemAttributes.GetPagedAsync(pageNumber, pageSize);
+                }
             }
-           
-            ViewBag.PageNumber = pageNumber;
-            ViewBag.TotalResults = products.Count;
-
-            var pageCount = pageNumber * 9;
-            if (pageCount < products.Count)
-            {
-                ViewBag.PageCount = pageNumber * 9;
-            }
-            else
-            {
-                ViewBag.PageCount = products.Count;
-            }
-            return View();
+            Common.SetPricecollection(prices);
+            return View(products);
         }
+
+
 
         public IActionResult ViewAccessories()
         {
 
+            
             return View();
         }
     }

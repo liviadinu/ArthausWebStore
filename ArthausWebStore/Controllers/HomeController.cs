@@ -9,6 +9,7 @@ using ArthausWebStore.Models;
 using ArthausWebStore.Models.Interface;
 using ArthausWebStore.ViewModels;
 using System.Diagnostics;
+using ArthausWebStore.Models.Repositories;
 
 namespace ArthausWebStore.Controllers
 {
@@ -24,6 +25,9 @@ namespace ArthausWebStore.Controllers
 
         public IActionResult Index()
         {
+            var prices = _itemRepository.GetAllItemPrices();
+            Common.SetPricecollection(prices);
+
             ViewData["Message"] = "Welcome to Arthuis Furniture Online Shop";
 
             var homeViewModel = new HomeViewModel()

@@ -2,8 +2,8 @@
 
 @{
     var oldPrice = @Model.Prices.UnitPriceIncludingVat.Value.ToString("c");
-    var newPrice = @Common.ReturnAppliedPrice(Model.SKU, Model.Prices);
-    var showDiscount = oldPrice == newPrice;
+    var newPrice = await @Common.ReturnAppliedPrice(Model.SKU);
+    bool showDiscount = await @Common.ShowDiscounted(Model.SKU);
 
 }
 <div class="modal-header">
@@ -22,7 +22,6 @@
             <div class="price-box-3">
                 <hr />
                 <div class="s-price-box">
-
                     @if (!showDiscount)
                     {
                         <span class="old-price">Old Price: @oldPrice</span>
@@ -38,7 +37,6 @@
                 <hr />
             </div>
             <a href="shop.html" class="see-all">See all features</a>
-
 
             @{
                 decimal numValue;
@@ -64,13 +62,10 @@
                                 <button class="single_add_to_cart_button" type="submit">Add to cart</button>
                             </form>
                         </div>
-                        <div class="quick-desc">
-                           
+                        <div class="quick-desc">                          
                             @String.Format("This item is very low on stock! Only {0} pieces remaining.", numValue.ToString());
                         </div>
-
                     }
-
                 }
                 else
                 {
@@ -87,7 +82,6 @@
                     </div>
                 }
             }
-
             <div class="social-sharing">
                 <div class="widget widget_socialsharing_widget">
                     <h3 class="widget-title-modal">Share this product</h3>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ArthausWebStore.Models.Interface;
+using ArthausWebStore.Models.PageHelpers;
 
 namespace ArthausWebStore.Models.Repositories
 {
@@ -37,7 +38,7 @@ namespace ArthausWebStore.Models.Repositories
 
         public IEnumerable<ItemAttributes> GetAllItems()
         {
-            return _products.ItemAttributes.ToList().OrderByDescending(c => c.No);
+            return _products.ItemAttributes.OrderByDescending(c => c.No).ToList();
         }
 
         public IEnumerable<ItemVariant> GetComponentColors(string SKU)

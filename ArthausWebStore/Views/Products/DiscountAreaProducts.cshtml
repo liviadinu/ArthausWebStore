@@ -25,7 +25,7 @@
                                     <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
                                         <div class="discount-info">
                                             <h1 class="text-dark-red">
-                                                @Common.ReturnAppliedPrice(itemDisc1.No,itemPrices)
+                                                @await Common.ReturnAppliedPrice(itemDisc1.No)
                                             </h1>
                                             <p>Stunning prices for an elite range of new furniture.</p>
                                             <a class="button-2 text-dark-red text-uppercase" href="#">GET DISCOUNT <i class="zmdi zmdi-long-arrow-right"></i></a>
@@ -48,7 +48,7 @@
                                         </div>
                                         <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
                                             <div class="discount-info">
-                                                <h1 class="text-dark-red">Discount @Common.ReturnDiscountPerc(discountItem.No,itemPrices)%</h1>
+                                                <h1 class="text-dark-red">Discount @await Common.ReturnDiscountPerc(discountItem.No)%</h1>
                                                 <p>Hot! Summer prices are in! Get your special discount now.</p>
                                                 <a class="button-2 text-dark-red text-uppercase" href="#">GET DISCOUNT <i class="zmdi zmdi-long-arrow-right"></i></a>
                                             </div>

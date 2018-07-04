@@ -1,11 +1,32 @@
-﻿@model X.PagedList.IPagedList<ArthausWebStore.ViewModels.ProductsViewModel>
+﻿@model PagedResult<ItemAttributes>
+@using ArthausWebStore.Models.PageHelpers
+@{
+    var urlTemplate = Url.Action() +"?";
+    if (!String.IsNullOrWhiteSpace(ViewBag.CurrentFilter))
+    {
+        urlTemplate = urlTemplate  + "searchString=" + ViewBag.CurrentFilter + "&";
 
-@using X.PagedList.Mvc.Core;
-@using X.PagedList;
-@using ArthausWebStore.Models.Repositories;
-@using System.Web.Mvc;
+    }
+    if (!String.IsNullOrWhiteSpace(ViewBag.PriceRange))
+    {
+        urlTemplate = urlTemplate + "priceRange="+ ViewBag.PriceRange + "&";
+    }
 
+    urlTemplate  += "page={0}";
 
+    var request = ViewContext.HttpContext.Request;
+    foreach (var key in request.Query.Keys)
+    {
+        if (key == "page")
+        {
+            continue;
+        }
+
+        urlTemplate += "&" + key + "=" + request.Query[key];
+    }
+    var startIndex = Math.Max(Model.CurrentPage - 5, 1);
+    var finishIndex = Math.Min(Model.CurrentPage + 5, Model.PageCount);
+}
 <!-- HEADING-BANNER START -->
 <div class="heading-banner-area overlay-bg" src="~/img/bg/1.jpg" alt="asp-append-version=" true"">
     <div class="container">
@@ -18,7 +39,7 @@
                     <div class="breadcumbs pb-15">
                         <ul>
                             <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                            <li>Product Catalog</li>
+                            <li>Catalog</li>
                         </ul>
                     </div>
                 </div>
@@ -34,7 +55,6 @@
             <div class="col-md-3 col-sm-12 col-xs-12">
                 <!-- Widget-Search start -->
                 <aside class="widget widget-search mb-30">
-
                     @using (Html.BeginForm("Index", "Products", System.Web.Mvc.FormMethod.Post))
                     {
                         <form action="#">
@@ -45,7 +65,6 @@
                             </button>
                         </form>
                     }
-
                 </aside>
                 <!-- Widget-search end -->
                 <!-- Widget-Categories start -->
@@ -115,14 +134,19 @@
                         <h4>Price</h4>
                     </div>
                     <div class="widget-info">
-                        <div class="price_filter">
-                            <div class="price_slider_amount">
-                                <input type="submit" value="You range :" />
-                                <input type="text" id="amount22" name="price" placeholder="Add Your Price" />
-                              
+                        @using (Html.BeginForm("Index", "Products", System.Web.Mvc.FormMethod.Post))
+                        {
+                            <div class="price_filter">
+                                <div class="price_slider_amount">
+                                    @Html.TextBox("priceRange", ViewBag.PriceRange as string,
+                                   new { type = "text", id = "amount", name = "price", placeholder = "Add Your Price" })
+                                    <div id="slider-range"></div>
+                                </div>
                             </div>
-                            <div id="slider-range22"></div>
-                        </div>
+                        <button type="submit" class="button-one zmdi-font text-center" data-text="search" >
+                            search
+                        </button>
+                        }
                     </div>
                 </aside>
                 <!-- Shop-Filter end -->
@@ -144,23 +168,13 @@
                     </div>
                 </aside>
                 <!-- Widget-Color end -->
-                <!-- Widget-Size start -->
-                <aside class="widget widget-size mb-30">
-                    <div class="widget-title">
-                        <h4>Catalog</h4>
-                    </div>
-                    <div class="widget-info size-filter clearfix">
-                        <!-- Widget-banner start -->
-                        <aside class="widget widget-banner hidden-sm">
-                            <div class="widget-info widget-banner-img">
-                                <a href="404.html"><img src="img/banner/5.jpg" alt="" /></a>
-                            </div>
-                        </aside>
-                        <!-- Widget-banner end -->
+                <!-- Widget-banner start -->
+                <aside class="widget widget-banner hidden-sm">
+                    <div class="widget-info widget-banner-img">
+                        <a href="#"><img src="img/banner/5.jpg" alt="" /></a>
                     </div>
                 </aside>
-                <!-- Widget-Size end -->
-
+                <!-- Widget-banner end -->
             </div>
             <div class="col-md-9 col-sm-12 col-xs-12">
                 <!-- Shop-Content End -->
@@ -172,31 +186,33 @@
                             <li><a href="#list-view" data-toggle="tab"><i class="zmdi zmdi-view-list"></i></a></li>
                         </ul>
                         <div class="showing text-right hidden-xs">
-                            <p class="mb-0">Showing  @ViewBag.PageResult  -   @ViewBag.PageCount  of   @ViewBag.TotalResults  Results</p>
+                            <p class="mb-0">Showing  @Model.FirstRowOnPage  -   @Model.LastRowOnPage  of  @Model.RowCount  Results</p>
                         </div>
                     </div>
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div class="tab-pane active" id="grid-view">
                             <div class="row">
-                                @foreach (var product in ViewBag.OnePageOfProducts)
+                                @foreach (var product in Model.Results)
                                 {
                                     <!-- Single-product start -->
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                                         <div class="single-product">
                                             <div class="product-img">
                                                 @{
-                                                    if (!product.OnSale)
+                                                    var OnSale = await Common.ShowDiscounted(product.No);
+                                                    if (!OnSale)
                                                     {
                                                         <span class="pro-label sale-label">Sale</span>
                                                     }
+                                                    var appliedPrice = await Common.ReturnAppliedPrice(product.No);
                                                 }
-                                                <span class="pro-price-2">@product.AppliedPrice</span>
-                                                <a href="single-product.html"><img src="@Common.ReturnPicture(product.ProductNo,PictureSizes.Thumbnail)" alt="" /></a>
+                                                <span class="pro-price-2">@appliedPrice</span>
+                                                <a href="single-product.html"><img src="@Common.ReturnPicture(product.No,PictureSizes.Thumbnail)" alt="" /></a>
                                             </div>
                                             <div class="product-info clearfix text-center">
                                                 <div class="fix">
-                                                    <h4 class="post-title"><a href="#">@product.Description</a></h4>
+                                                    <h4 class="post-title"><a href="#">@product.Description2</a></h4>
                                                 </div>
                                                 <div class="fix">
                                                     <span class="pro-rating">
@@ -209,32 +225,35 @@
                                                 </div>
                                                 <div class="product-action clearfix">
                                                     <a href="#" data-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
-                                                    <a asp-controller="Home" asp-action="QuickView" asp-route-ItemSKU=@product.ProductNo data-target="#productModal" data-toggle="modal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
+                                                    <a asp-controller="Home" asp-action="QuickView" asp-route-ItemSKU=@product.No data-target="#productModal" data-toggle="modal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
                                                     <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
                                                     <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Single-product end -->
                                 }
                             </div>
                         </div>
                         <div class="tab-pane" id="list-view">
                             <div class="row shop-list">
-                                @foreach (var product in ViewBag.OnePageOfProducts)
+                                @foreach (var product in Model.Results)
                                 {
                                     <!-- Single-product start -->
                                     <div class="col-lg-12">
                                         <div class="single-product clearfix">
                                             <div class="product-img">
                                                 @{
-                                                    if (!product.OnSale)
+                                                    var OnSale = await Common.ShowDiscounted(product.No);
+                                                    if (!OnSale)
                                                     {
                                                         <span class="pro-label sale-label">Sale</span>
                                                     }
+                                                    var appliedPrice = await Common.ReturnAppliedPrice(product.No);
                                                 }
-                                                <span class="pro-price-2">@product.AppliedPrice</span>
-                                                <a href="single-product.html"><img src="@Common.ReturnPicture(product.ProductNo,PictureSizes.Thumbnail)" alt="" /></a>
+                                                <span class="pro-price-2">@appliedPrice</span>
+                                                <a href="single-product.html"><img src="@Common.ReturnPicture(product.No,PictureSizes.Thumbnail)" alt="" /></a>
                                             </div>
                                             <div class="product-info">
                                                 <div class="fix">
@@ -245,14 +264,13 @@
                                                         <a href="#"><i class="zmdi zmdi-star"></i></a>
                                                         <a href="#"><i class="zmdi zmdi-star-half"></i></a>
                                                         <a href="#"><i class="zmdi zmdi-star-half"></i></a>
-                                                        <span>( 27 Rating )</span>
                                                     </span>
                                                 </div>
                                                 <div class="fix mb-20">
-                                                    <span class="pro-price">@product.AppliedPrice</span>
+                                                    <span class="pro-price">@appliedPrice</span>
                                                 </div>
                                                 <div class="product-description">
-                                                    <p>@String.Format("{0} {1} - {2}", product.SeasonCode, product.Collection, product.CollectionYear)</p>
+                                                    <p>@String.Format("{0} {1}, by {2}. Style: {3}", product.SeasonCode, product.CollectionYear, product.Collection, product.Style)</p>
                                                 </div>
                                                 <div class="clearfix">
                                                     <div class="cart-plus-minus">
@@ -260,7 +278,7 @@
                                                     </div>
                                                     <div class="product-action clearfix">
                                                         <a href="#" data-toggle="tooltip" data-placement="top" title="Wishlist"><i class="zmdi zmdi-favorite-outline"></i></a>
-                                                        <a asp-controller="Home" asp-action="QuickView" asp-route-ItemSKU=@product.ProductNo data-target="#productModal" data-toggle="modal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
+                                                        <a asp-controller="Home" asp-action="QuickView" asp-route-ItemSKU=@product.No data-target="#productModal" data-toggle="modal" title="Quick View"><i class="zmdi zmdi-zoom-in"></i></a>
                                                         <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
                                                         <a href="#" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                     </div>
@@ -273,11 +291,29 @@
                             </div>
                         </div>
                     </div>
+
                     <!-- Pagination start -->
                     <div class="shop-pagination  text-center">
                         <div class="pagination">
                             <ul>
-                                @Html.PagedListPager((IPagedList)ViewBag.OnePageOfProducts, page => Url.Action("Index", new { page = page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+                                @if (Model.PageCount > 1)
+                                {
+
+                                    <li><a href="@urlTemplate.Replace("{0}", "1")"><i class="zmdi zmdi-long-arrow-left"></i></a></li>
+                                    @for (var i = startIndex; i <= finishIndex; i++)
+                                    {
+                                        @if (i == Model.CurrentPage)
+                                        {
+                                            <li class="active"><a href="#">@i</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a href="@urlTemplate.Replace("{0}", i.ToString())">@i</a></li>
+                                        }
+                                    }
+                                    <li><a href="@urlTemplate.Replace("{0}", Model.PageCount.ToString())"><i class="zmdi zmdi-long-arrow-right"></i></a></li>
+
+                                }
                             </ul>
                         </div>
                     </div>
@@ -288,66 +324,62 @@
         </div>
     </div>
 </div>
-
+@(await Component.InvokeAsync<PagerViewComponent>(Model))
 <!-- PRODUCT-AREA END -->
-<!-- FOOTER END -->
 <!-- QUICKVIEW PRODUCT -->
 <div id="quickview-wrapper">
     <!-- Modal -->
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
 
             </div><!-- .modal-content -->
         </div><!-- .modal-dialog -->
     </div>
     <!-- END Modal -->
 </div>
-
 <!-- END QUICKVIEW PRODUCT -->
 @section scripts {
     @* The normal bootstrap behavior is to only grab the content for the modal once, if you need to pull in different partial views then the data on the modal will have to be cleared.*@
-<script type="text/javascript">
+    <script type="text/javascript">
         $(function () {
-
             // boostrap 4 load modal example from docs
             $('#productModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget); // Button that triggered the modal
-                var url = button.attr("href");
+                url = button.attr("href");
                 var modal = $(this);
-
                 // note that this will replace the content of modal-content ever time the modal is opened
                 modal.find('.modal-content').load(url);
             });
         });
-
-
         /*----------------------------
             price-slider active
         ------------------------------ */
-        $("#slider-range22").slider({
-            range: true,
-            min: 0,
-            max: 150,
-            values: [0, 999],
-            slide: function (event, ui) {
-                $("#amount22").val("$" + ui.values[0] + " - $" + ui.values[1]);
+        //$("#slider-range22").slider({
+        //    range: true,
+        //    min: 0,
+        //    max: 150,
+        //    values: [0, 999],
+        //    slide: function (event, ui) {
+        //        $("#amount22").val("$" + ui.values[0] + " - $" + ui.values[1]);
 
-            }
-        });
-        $("#amount22").val("$" + $("#slider-range22").slider("values", 0) +
-            " - $" + $("#slider-range22").slider("values", 1));
+        //    }
+        //});
+        //$("#amount22").val("$" + $("#slider-range22").slider("values", 0) +
+        //    " - $" + $("#slider-range22").slider("values", 1));
 
+                $("#slider-range").on("slide", function (event, ui) {
+                     var sliderMaxVal = $("#amount") .text(ui.values[1]);
+                    var sliderMinVal = $("#amount").text(ui.values[0]);
+                    var button = $(event.relatedTarget); // Button that triggered the modal
+                    //$("#grid-view").load("Products/Index?priceRange=", { priceRange: ui.values[0] + ';' + ui.values[1] });
+                    //var url = button.attr("href").replace("{0}","");
+                   
+                    //$("#grid-view").load(url);
+                });
+    </script>
 
-    $("#slider-range22").on("slide", function (event, ui) {
-       // var sliderMaxVal = $("#amount22") .text(ui.values[1]);
-        //var sliderMinVal = $("#amount22").text(ui.values[0]);
-        //var button = $(event.relatedTarget); // Button that triggered the modal
-        //var url = "Products/Index?priceRange="+ sliderMaxVal;
-        $("#grid-view").load("Products/Index?priceRange=", { priceRange: ui.values[0] + ';' + ui.values[1] });
-
-
-
-        });
-</script>
 }

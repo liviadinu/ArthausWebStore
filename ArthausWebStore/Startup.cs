@@ -43,7 +43,8 @@ namespace ArthausWebStore
             });
 
             services.AddTransient<ISkuItemsList, ItemRepository>();
-            services.AddTransient<IProductsGrid, ProductRepository>();
+            services.AddSingleton<IProductsGrid, ProductRepository>();
+ 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

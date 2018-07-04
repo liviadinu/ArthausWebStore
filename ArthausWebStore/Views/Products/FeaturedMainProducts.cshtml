@@ -14,7 +14,7 @@
                 <div class="single-banner banner-1 banner-4">
                     <a class="banner-thumb" href="#"><img src=@Common.ReturnPicture(bannerProduct.No,PictureSizes.SmallBanner) alt="" asp-append-version="true" /></a>
                     <span class="pro-label new-label">new</span>
-                    <span class="price">@Common.ReturnAppliedPrice(bannerProduct.No,itemPrices)</span>
+                    <span class="price">@await Common.ReturnAppliedPrice(bannerProduct.No)</span>
                     <div class="banner-brief">
                         <h2 class="banner-title"><a href="#"></a></h2>
                         <p class="mb-0">Furniture</p>
@@ -61,7 +61,7 @@
                         <div class="single-product">
                             <div class="product-img">
                                 <span class="pro-label offer-label">Featured</span>
-                                <span class="pro-price-2">@Common.ReturnAppliedPrice(itemProd.No,itemPrices)</span>
+                                <span class="pro-price-2">@await Common.ReturnAppliedPrice(itemProd.No)</span>
                                 <a href="single-product.html"><img src=@Common.ReturnPicture(itemProd.No,PictureSizes.Thumbnail) alt="" asp-append-version="true" /></a>
                             </div>
                             <div class="product-info clearfix text-center">
