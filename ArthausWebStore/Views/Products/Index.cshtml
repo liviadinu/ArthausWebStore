@@ -2,6 +2,8 @@
 @using ArthausWebStore.Models.PageHelpers
 @{
     var urlTemplate = Url.Action() +"?";
+
+
     if (!String.IsNullOrWhiteSpace(ViewBag.CurrentFilter))
     {
         urlTemplate = urlTemplate  + "searchString=" + ViewBag.CurrentFilter + "&";
@@ -10,6 +12,36 @@
     if (!String.IsNullOrWhiteSpace(ViewBag.PriceRange))
     {
         urlTemplate = urlTemplate + "priceRange="+ ViewBag.PriceRange + "&";
+    }
+
+    if (!String.IsNullOrWhiteSpace(ViewBag.ColorFilter))
+    {
+        urlTemplate = urlTemplate + "colorFilter=" + ViewBag.ColorFilter + "&";
+    }
+
+    if (!String.IsNullOrWhiteSpace(ViewBag.Brand))
+    {
+        urlTemplate = urlTemplate + "Brand=" + ViewBag.Brand + "&";
+    }
+
+    if (!String.IsNullOrWhiteSpace(ViewBag.Season))
+    {
+        urlTemplate = urlTemplate + "season=" + ViewBag.Season + "&";
+    }
+
+    if (!String.IsNullOrWhiteSpace(ViewBag.Collection))
+    {
+        urlTemplate = urlTemplate + "season=" + ViewBag.Collection + "&";
+    }
+
+    if (!String.IsNullOrWhiteSpace(ViewBag.Style))
+    {
+        urlTemplate = urlTemplate + "style=" + ViewBag.Style + "&";
+    }
+
+    if (!String.IsNullOrWhiteSpace(ViewBag.Category))
+    {
+        urlTemplate = urlTemplate + "priceRange=" + ViewBag.Category + "&";
     }
 
     urlTemplate  += "page={0}";
@@ -39,7 +71,7 @@
                     <div class="breadcumbs pb-15">
                         <ul>
                             <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                            <li>Catalog</li>
+                            <li><a asp-controller="Products" asp-action="Index">Catalog</a></li>
                         </ul>
                     </div>
                 </div>
@@ -68,65 +100,10 @@
                 </aside>
                 <!-- Widget-search end -->
                 <!-- Widget-Categories start -->
-                <aside class="widget widget-categories  mb-30">
-                    <div class="widget-title">
-                        <h4>Categories</h4>
-                    </div>
-                    <div id="cat-treeview" class="widget-info product-cat boxscrol2">
-                        <ul>
-                            <li>
-                                <span>Chair</span>
-                                <ul>
-                                    <li><a href="#">T-Shirts</a></li>
-                                    <li><a href="#">Striped Shirts</a></li>
-                                    <li><a href="#">Half Shirts</a></li>
-                                    <li><a href="#">Formal Shirts</a></li>
-                                    <li><a href="#">Bilazers</a></li>
-                                </ul>
-                            </li>
-                            <li class="open">
-                                <span>Furniture</span>
-                                <ul>
-                                    <li><a href="#">Men Bag</a></li>
-                                    <li><a href="#">Shoes</a></li>
-                                    <li><a href="#">Watch</a></li>
-                                    <li><a href="#">T-shirt</a></li>
-                                    <li><a href="#">Shirt</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <span>Accessories</span>
-                                <ul>
-                                    <li><a href="#">T-Shirts</a></li>
-                                    <li><a href="#">Striped Shirts</a></li>
-                                    <li><a href="#">Half Shirts</a></li>
-                                    <li><a href="#">Formal Shirts</a></li>
-                                    <li><a href="#">Bilazers</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <span>Top Brands</span>
-                                <ul>
-                                    <li><a href="#">T-Shirts</a></li>
-                                    <li><a href="#">Striped Shirts</a></li>
-                                    <li><a href="#">Half Shirts</a></li>
-                                    <li><a href="#">Formal Shirts</a></li>
-                                    <li><a href="#">Bilazers</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <span>Jewelry</span>
-                                <ul>
-                                    <li><a href="#">T-Shirts</a></li>
-                                    <li><a href="#">Striped Shirts</a></li>
-                                    <li><a href="#">Half Shirts</a></li>
-                                    <li><a href="#">Formal Shirts</a></li>
-                                    <li><a href="#">Bilazers</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </aside>
+                @await Html.PartialAsync("../Shared/Filters/FilterWidget.cshtml");
+
+
+
                 <!-- Widget-categories end -->
                 <!-- Shop-Filter start -->
                 <aside class="widget shop-filter mb-30">
@@ -143,9 +120,9 @@
                                     <div id="slider-range"></div>
                                 </div>
                             </div>
-                        <button type="submit" class="button-one zmdi-font text-center" data-text="search" >
-                            search
-                        </button>
+                            <button type="submit" class="button-one zmdi-font text-center" data-text="search">
+                                search
+                            </button>
                         }
                     </div>
                 </aside>
@@ -171,7 +148,7 @@
                 <!-- Widget-banner start -->
                 <aside class="widget widget-banner hidden-sm">
                     <div class="widget-info widget-banner-img">
-                        <a href="#"><img src="img/banner/5.jpg" alt="" /></a>
+                        <a href="404.html"><img src="img/banner/5.jpg" alt="" /></a>
                     </div>
                 </aside>
                 <!-- Widget-banner end -->
