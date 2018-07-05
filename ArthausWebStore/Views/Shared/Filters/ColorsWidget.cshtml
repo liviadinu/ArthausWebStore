@@ -1,15 +1,31 @@
 ﻿@{
-    var colors = Common.GetAttributes(1).Take(9).ToList();
+    var colors = Common.GetAttributes(1).Take(7).ToList();
+    var colors2 = Common.GetAttributes(1).Skip(7).ToList();
 }
 <aside class="widget widget-color mb-30">
     <div class="widget-title">
         <h4>Color</h4>
     </div>
-    <div class="widget-info color-filter clearfix">
+    <div id="cat-treeview" class="widget-info color-filter clearfix">
         <ul>
-            @foreach (var color in colors){
-                <li><a asp-controller="Products" asp-action="WidgetFilter" asp-route-color="@color"><span class="@Colors.GetColorClass(color.ToLower())"></span>@color<span class="count">12</span></a></li>
-            }
+            <li class="active">
+                <span>Popular Colors</span>
+                <ul>
+                    @foreach (var color in colors)
+                    {
+                        <li><a asp-controller="Products" asp-action="WidgetFilter" asp-route-color="@color"><span class="@Colors.GetColorClass(color.ToLower())"></span>@color<span class="count">12</span></a></li>
+                    }
+                </ul>
+            </li>
+            <li class="slick-hidden">
+                <span>See More</span>
+                <ul>
+                    @foreach (var color in colors2)
+                    {
+                        <li><a asp-controller="Products" asp-action="WidgetFilter" asp-route-color="@color"><span class="@Colors.GetColorClass(color.ToLower())"></span>@color<span class="count">12</span></a></li>
+                    }
+                </ul>
+            </li>   
         </ul>
     </div>
 </aside>

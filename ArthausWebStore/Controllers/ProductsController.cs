@@ -81,7 +81,7 @@ namespace ArthausWebStore.Controllers
                 var query2 = from sp in _productRepository.ItemAttributes
                              join v in itemVariants on sp.No equals v.ItemNo
                              select sp;
-                var products = query2.GetPagedAsync(pageNumber, pageSize);
+                var products = await query2.GetPagedAsync(pageNumber, pageSize);
                 return View("Index", products);
             }
 
