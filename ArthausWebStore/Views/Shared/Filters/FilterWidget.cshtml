@@ -1,10 +1,10 @@
 ﻿@{ 
     var collections = Common.GetAttributes(0);
-    var colors      = Common.GetAttributes(1);
     var style       = Common.GetAttributes(2);
     var season      = Common.GetAttributes(3);
     var brands      = Common.GetAttributes(4);
     var divisions   = Common.GetAttributes(5);
+    int i = 0;
 }
 
     <aside class="widget widget-categories  mb-30">
@@ -49,12 +49,14 @@
                     }
                 </ul>
             </li>
-            <li>
+            <li class="active">
                 <span>Season</span>
                 <ul>
                     @foreach (var item in season)
                     {
-                        <li><a asp-controller="Products" asp-action="WidgetFilter" asp-route-season="@item.ToString()">@item.ToString()</a></li>
+ 
+                      <li><a asp-controller="Products" asp-action="WidgetFilter" asp-route-season="@item.ToString()">@item.ToString()</a></li>
+
                     }
                 </ul>
             </li>

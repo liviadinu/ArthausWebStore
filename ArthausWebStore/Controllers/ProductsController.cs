@@ -69,15 +69,15 @@ namespace ArthausWebStore.Controllers
         }
 
 
-        public async Task<IActionResult> WidgetFilter(string colorFilter, string season, string style, int? page)
+        public async Task<IActionResult> WidgetFilter(string color, string season, string style, int? page)
         {
             
             int pageSize = 9;
             int pageNumber = (page ?? 1);
-            if (!String.IsNullOrEmpty(colorFilter)) // get color filter
+            if (!String.IsNullOrEmpty(color)) // get color filter
             {
-                ViewBag.ColorFilter = colorFilter;
-                var itemVariants = _productRepository.ItemVariants.Where(p => p.Color == colorFilter);
+                ViewBag.ColorFilter = color;
+                var itemVariants = _productRepository.ItemVariants.Where(p => p.Color.Contains(color));
                 var query2 = from sp in _productRepository.ItemAttributes
                              join v in itemVariants on sp.No equals v.ItemNo
                              select sp;

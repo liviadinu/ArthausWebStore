@@ -1258,6 +1258,17 @@ span.color.color-4 { background: #00B2EE; }
 span.color.color-5 { background: #00EEB3; }
 span.color.color-6 { background: #8DC63F; }
 span.color.color-7 { background: #C38B4B; }
+span.color.color-8 { background: #ffd800; }
+span.color.color-9 { background: #00ff21; }
+span.color.color-10 { background: rgba(0, 0, 0, 0.1); }
+span.color.color-11 { background: #000000}
+span.color.color-12 { background: #f6f6f6}
+span.color.color-13 { background: #fbf1de}
+span.color.color-14 { background: #956213}
+span.color.color-15 { background: #e9c080}
+span.color.color-16 { background: #f5d7a9}
+span.color.color-17 { background: #b3d4fc}
+span.color.color-18 { background: #e6fef4}
 /* Widget Size Filter */
 .size-filter li {
   float: left;
