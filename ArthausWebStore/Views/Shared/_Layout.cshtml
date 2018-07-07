@@ -1,4 +1,17 @@
-﻿<!doctype html>
+﻿
+@using System.Security.Claims
+@using System.Threading.Tasks
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore
+
+@inject SignInManager<AppUser> SignInManager
+@inject IAuthorizationService AuthorizationService
+@inject UserManager<AppUser> UserManager
+
+
+<!doctype html>
 <html class="no-js" lang="en">
 <head>
     <meta charset="utf-8">
@@ -54,25 +67,25 @@
                         </div>
                     </div>
                     <div class="row">
-                    <div class="col-sm-4 col-xs-5">
-                       <div class="glyphicon-log-in">
-                        @await Html.PartialAsync("../Account/LoginPartial.cshtml")
-                       </div>
-                    </div>
-                    <div class="col-sm-4 col-xs-5">
-                        <div class="mini-cart text-right">
-                            <ul>
-                                <li>
-                                    <a class="cart-icon" href="#">
-                                        <i class="zmdi zmdi-shopping-cart"></i>
-                                        <span>3</span>
-                                    </a>
-                                    @await Html.PartialAsync("../Products/QuickViewCart.cshtml")
-                                </li>
-                            </ul>
+                        <div class="col-sm-4 col-xs-5">
+                            <div class="glyphicon-log-in">
+                                @await Html.PartialAsync("LoginPartial")
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xs-5">
+                            <div class="mini-cart text-right">
+                                <ul>
+                                    <li>
+                                        <a class="cart-icon" href="#">
+                                            <i class="zmdi zmdi-shopping-cart"></i>
+                                            <span>3</span>
+                                        </a>
+                                        @await Html.PartialAsync("../Products/QuickViewCart.cshtml")
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                   </div>
                 </div>
             </div>
         </div>

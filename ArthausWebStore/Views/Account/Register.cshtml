@@ -1,35 +1,44 @@
-﻿<!-- HEADING-BANNER START -->
-<div class="heading-banner-area overlay-bg">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="heading-banner">
-                    <div class="heading-banner-title">
-                        <h2>Registration</h2>
-                    </div>
-                    <div class="breadcumbs pb-15">
-                        <ul>
-                            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                            <li>Registration</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+﻿
+@model LoginViewModel
+
+<h2>Register now . It's free!</h2>
+<form asp-controller="Account" asp-action="Register" method="post" class="form-horizontal" role="form">
+    <h4>Create a new account and order today!</h4>
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="UserName" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="UserName" class="form-control" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
         </div>
     </div>
-</div>
-<!-- HEADING-BANNER END -->
-<!-- SHOPPING-CART-AREA START -->
-<div class="login-area  pt-80 pb-80">
-    <div class="container">
-        <div class="row">
 
-
-            @await Html.PartialAsync("Login")
-
-
-            @await Html.PartialAsync("SignUp")
-            </div>
-
-            </div>
+    <div class="form-group">
+        <label asp-for="FullName" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
         </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Register" />
+        </div>
+    </div>
+</form>

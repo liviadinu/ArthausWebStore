@@ -1,36 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using ArthausWebStore.Models;
+using ArthausWebStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ArthausWebStore.Models;
-using ArthausWebStore.ViewModels;
-using System.Security.Claims;
-using ArthausWebStore.AuthHelpers;
 
 namespace ArthausWebStore.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
+
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
- 
 
         public AccountController(UserManager<AppUser> userManager,
-                              SignInManager<AppUser> signInManager)
+                         SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        [AllowAnonymous]
-        public IActionResult Register()
-        {
-            return View();
-        }
+
 
         [AllowAnonymous]
         public IActionResult Login(string returnUrl)
@@ -40,12 +33,6 @@ namespace ArthausWebStore.Controllers
                 ReturnUrl = returnUrl
             });
         }
-
-        //[AllowAnonymous]
-        //public IActionResult Login()
-        //{
-        //    return View();
-        //}
 
         [HttpPost]
         [AllowAnonymous]
@@ -67,28 +54,28 @@ namespace ArthausWebStore.Controllers
                     return Redirect(loginViewModel.ReturnUrl);
                 }
             }
-           
-            ModelState.AddModelError("", "The username/password combination was not found.");
-            return View("Register",loginViewModel);
+
+            ModelState.AddModelError("", "Username/password not found");
+            return View(loginViewModel);
         }
 
 
-        //[AllowAnonymous]
-        //public IActionResult SignUp()
-        //{
-        //    return View();
-        //}
-
+        public IActionResult Register()
+        {
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignUp(LoginViewModel loginViewModel)
+        public async Task<IActionResult> Register(LoginViewModel loginViewModel)
         {
             if (ModelState.IsValid)
             {
-                var user = new AppUser() {
-                    UserName = loginViewModel.UserName,
-                    Email = loginViewModel.Email };
+                var user = new AppUser()
+                { UserName = loginViewModel.UserName,
+                    Email = loginViewModel.Email,
+                    FullName = loginViewModel.FullName,
+                     };
                 var result = await _userManager.CreateAsync(user, loginViewModel.Password);
 
                 if (result.Succeeded)
@@ -96,7 +83,7 @@ namespace ArthausWebStore.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-            return View("Register",loginViewModel);
+            return View(loginViewModel);
         }
 
         [HttpPost]
@@ -106,64 +93,9 @@ namespace ArthausWebStore.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
         public IActionResult AccessDenied()
         {
             return View();
-        }
-
-        [AllowAnonymous]
-        public IActionResult GoogleLogin(string returnUrl = null)
-        {
-            var redirectUrl = Url.Action("GoogleLoginCallback", "Account", new { ReturnUrl = returnUrl });
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(ThirPartyLoginService.GoogleProvider, redirectUrl);
-            return Challenge(properties, ThirPartyLoginService.GoogleProvider);
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> GoogleLoginCallback(string returnUrl = null, string serviceError = null)
-        {
-            if (serviceError != null)
-            {
-                ModelState.AddModelError(string.Empty, $"Error from external provider: {serviceError}");
-                return View(nameof(Login));
-            }
-
-            var info = await _signInManager.GetExternalLoginInfoAsync();
-            if (info == null)
-            {
-                return RedirectToAction(nameof(Login));
-            }
-
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
-            if (result.Succeeded)
-            {
-                if (returnUrl == null)
-                    return RedirectToAction("index", "home");
-
-                return Redirect(returnUrl);
-            }
-
-            var user = new AppUser
-            {
-                Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
-                UserName = info.Principal.FindFirst(ClaimTypes.Email).Value
-            };
-
-            var identityResult = await _userManager.CreateAsync(user);
-
-            if (!identityResult.Succeeded) return AccessDenied();
-
-            identityResult = await _userManager.AddLoginAsync(user, info);
-
-            if (!identityResult.Succeeded) return AccessDenied();
-
-            await _signInManager.SignInAsync(user, false);
-
-            if (returnUrl == null)
-                return RedirectToAction("index", "home");
-
-            return Redirect(returnUrl);
         }
 
     }
