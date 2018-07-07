@@ -4,14 +4,16 @@ using ArthausWebStore.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ArthausWebStore.Migrations
 {
     [DbContext(typeof(ArthuisWebShopContext))]
-    partial class ArthuisWebShopContextModelSnapshot : ModelSnapshot
+    [Migration("20180707115608_IdendtityAdded")]
+    partial class IdendtityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

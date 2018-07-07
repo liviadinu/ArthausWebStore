@@ -10,9 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ArthausWebStore.Models;
+using ArthausWebStore.Models.Repositories;
 using ArthausWebStore.Models.Interface;
 using Microsoft.EntityFrameworkCore;
-using ArthausWebStore.Models.Repositories;
+using Microsoft.AspNetCore.Identity;
 
 namespace ArthausWebStore
 {
@@ -32,7 +33,16 @@ namespace ArthausWebStore
             services.AddDbContext<ArthuisWebShopContext>(options =>
                               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            
+
+            services.AddIdentity<AppUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<ArthuisWebShopContext>();
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddNodeServices();
             services.Configure<CookiePolicyOptions>(options =>
@@ -64,7 +74,7 @@ namespace ArthausWebStore
             app.UseStaticFiles();
           
             app.UseCookiePolicy();
-
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

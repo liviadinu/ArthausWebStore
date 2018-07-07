@@ -55,8 +55,6 @@ namespace ArthausWebStore.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
@@ -83,11 +81,6 @@ namespace ArthausWebStore.Controllers
         public IActionResult ReturnsInfo()
         {
             return View("../Home/ReturnsInfo");
-        }
-
-        public IActionResult ContactInfo()
-        {
-            return View("../Home/Contact");
         }
 
         public IActionResult Blog()

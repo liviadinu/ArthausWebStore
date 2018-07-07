@@ -136,7 +136,7 @@ namespace ArthausWebStore.Controllers
                         select sp;
             var products = await query.GetPagedAsync(pageNumber, pageSize);
            return View("Index", products);
-        } //POPULAR CATEG/ CATEG/ SUBCATEG
+        }
 
         public async Task<IActionResult> SubCategoryLink(string subCategory, int? page)
         {

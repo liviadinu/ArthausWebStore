@@ -1,23 +1,21 @@
-﻿using ArthausWebStore.Models;
+﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace ArthausWebStore
+namespace ArthausWebStore.Models
 {
-    public class ArthausBackOfficeContext : DbContext
+    public partial class ArthuisWebShopContext : IdentityDbContext<AppUser>
     {
-        public ArthausBackOfficeContext()
+        public ArthuisWebShopContext()
         {
         }
 
-        public ArthausBackOfficeContext(DbContextOptions<ArthausBackOfficeContext> options)
+        public ArthuisWebShopContext(DbContextOptions<ArthuisWebShopContext> options)
             : base(options)
         {
         }
+
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Item> Item { get; set; }
         public virtual DbSet<ItemAttributes> ItemAttributes { get; set; }
@@ -29,15 +27,6 @@ namespace ArthausWebStore
         public virtual DbSet<ItemPrices> ItemPrices { get; set; }
         public virtual DbSet<ItemPromotions> ItemPromotions { get; set; }
         public virtual DbSet<ItemStockLevels> ItemStockLevels { get; set; }
-        public virtual DbSet<ItemVendor> ItemVendor { get; set; }
-        public virtual DbSet<PayableVendorLedgerEntry> PayableVendorLedgerEntry { get; set; }
-        public virtual DbSet<ReturnPolicy> ReturnPolicy { get; set; }
-        public virtual DbSet<ReturnReason> ReturnReason { get; set; }
-        public virtual DbSet<ReturnReceiptHeader> ReturnReceiptHeader { get; set; }
-        public virtual DbSet<ReturnReceiptLine> ReturnReceiptLine { get; set; }
-        public virtual DbSet<ReturnShipmentHeader> ReturnShipmentHeader { get; set; }
-        public virtual DbSet<ReturnShipmentLine> ReturnShipmentLine { get; set; }
-        public virtual DbSet<ReturnsRelatedDocument> ReturnsRelatedDocument { get; set; }
         public virtual DbSet<SalesHeader> SalesHeader { get; set; }
         public virtual DbSet<SalesInvoiceHeader> SalesInvoiceHeader { get; set; }
         public virtual DbSet<SalesInvoiceLine> SalesInvoiceLine { get; set; }
@@ -47,14 +36,8 @@ namespace ArthausWebStore
         public virtual DbSet<SalesShipmentLine> SalesShipmentLine { get; set; }
         public virtual DbSet<SalesStatistics> SalesStatistics { get; set; }
         public virtual DbSet<ServiceBookings> ServiceBookings { get; set; }
-        public virtual DbSet<ServiceContractHeader> ServiceContractHeader { get; set; }
-        public virtual DbSet<ServiceContractLine> ServiceContractLine { get; set; }
-        public virtual DbSet<ServiceHeader> ServiceHeader { get; set; }
-        public virtual DbSet<ServiceInvoiceHeader> ServiceInvoiceHeader { get; set; }
-        public virtual DbSet<ServiceInvoiceLine> ServiceInvoiceLine { get; set; }
         public virtual DbSet<ServiceItem> ServiceItem { get; set; }
         public virtual DbSet<ServiceItemLine> ServiceItemLine { get; set; }
-        public virtual DbSet<ServiceLedgerEntry> ServiceLedgerEntry { get; set; }
         public virtual DbSet<ServiceLine> ServiceLine { get; set; }
         public virtual DbSet<ServiceOrder> ServiceOrder { get; set; }
         public virtual DbSet<ServiceOrderAllocation> ServiceOrderAllocation { get; set; }
@@ -62,21 +45,15 @@ namespace ArthausWebStore
         public virtual DbSet<ServiceOrderStatus> ServiceOrderStatus { get; set; }
         public virtual DbSet<ServiceOrderType> ServiceOrderType { get; set; }
         public virtual DbSet<ServiceProduct> ServiceProduct { get; set; }
+        public virtual DbSet<ServiceProductPrices> ServiceProductPrices { get; set; }
         public virtual DbSet<ServiceProvider> ServiceProvider { get; set; }
         public virtual DbSet<ShippingAgent> ShippingAgent { get; set; }
         public virtual DbSet<ShippingAgentServices> ShippingAgentServices { get; set; }
-        public virtual DbSet<Vendor> Vendor { get; set; }
-        public virtual DbSet<VendorLedgerEntry> VendorLedgerEntry { get; set; }
         public virtual DbSet<Visitors> Visitors { get; set; }
-        public virtual DbSet<WarehouseActivityHeader> WarehouseActivityHeader { get; set; }
-        public virtual DbSet<WarehouseActivityLine> WarehouseActivityLine { get; set; }
-        public virtual DbSet<WarehouseShipmentHeader> WarehouseShipmentHeader { get; set; }
-        public virtual DbSet<WarehouseShipmentLine> WarehouseShipmentLine { get; set; }
-        public virtual DbSet<WhseInternalPickHeader> WhseInternalPickHeader { get; set; }
-        public virtual DbSet<WhseInternalPickLine> WhseInternalPickLine { get; set; }
         public virtual DbSet<ItemVariant> ItemVariants { get; set; }
         public virtual DbSet<ErrorLog> ErrorLog { get; set; }
-
+        public virtual DbSet<ItemRatings> ItemRatings { get; set; }
+        public virtual DbSet<AppUser> ApplicationUser { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -85,6 +62,7 @@ namespace ArthausWebStore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<CustLedgerEntry>(entity =>
             {
                 entity.HasKey(e => e.EntryNo);
@@ -425,13 +403,8 @@ namespace ArthausWebStore
                     .HasName("$3")
                     .IsUnique();
 
-                entity.HasIndex(e => new { e.CustomerPostingGroup, e.No })
-                    .HasName("$2")
-                    .IsUnique();
 
-                entity.HasIndex(e => new { e.GenBusPostingGroup, e.No })
-                    .HasName("$5")
-                    .IsUnique();
+
 
                 entity.HasIndex(e => new { e.Name, e.No })
                     .HasName("$8")
@@ -441,9 +414,7 @@ namespace ArthausWebStore
                     .HasName("$11")
                     .IsUnique();
 
-                entity.HasIndex(e => new { e.RetailCustomerGroup, e.No })
-                    .HasName("$14")
-                    .IsUnique();
+
 
                 entity.HasIndex(e => new { e.SearchName, e.No })
                     .HasName("$1")
@@ -479,32 +450,10 @@ namespace ArthausWebStore
                     .HasColumnName("Address 2")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.AllowLineDisc).HasColumnName("Allow Line Disc_");
+
 
                 entity.Property(e => e.Amount).HasColumnType("decimal(38, 20)");
 
-                entity.Property(e => e.ApplicationMethod).HasColumnName("Application Method");
-
-                entity.Property(e => e.BaseCalendarCode)
-                    .IsRequired()
-                    .HasColumnName("Base Calendar Code")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.BillToCustomerNo)
-                    .IsRequired()
-                    .HasColumnName("Bill-to Customer No_")
-                    .HasMaxLength(20);
-
-                entity.Property(e => e.BlockPaymentTolerance).HasColumnName("Block Payment Tolerance");
-
-                entity.Property(e => e.BudgetedAmount)
-                    .HasColumnName("Budgeted Amount")
-                    .HasColumnType("decimal(38, 20)");
-
-                entity.Property(e => e.CashFlowPaymentTermsCode)
-                    .IsRequired()
-                    .HasColumnName("Cash Flow Payment Terms Code")
-                    .HasMaxLength(10);
 
                 entity.Property(e => e.ChainName)
                     .IsRequired()
@@ -515,10 +464,7 @@ namespace ArthausWebStore
                     .IsRequired()
                     .HasMaxLength(30);
 
-                entity.Property(e => e.CollectionMethod)
-                    .IsRequired()
-                    .HasColumnName("Collection Method")
-                    .HasMaxLength(20);
+
 
                 entity.Property(e => e.CombineShipments).HasColumnName("Combine Shipments");
 
@@ -526,16 +472,7 @@ namespace ArthausWebStore
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.ContactGraphId)
-                    .IsRequired()
-                    .HasColumnName("Contact Graph Id")
-                    .HasMaxLength(250);
 
-                entity.Property(e => e.ContactId).HasColumnName("Contact ID");
-
-                entity.Property(e => e.ContactType).HasColumnName("Contact Type");
-
-                entity.Property(e => e.CopySellToAddrToQteFrom).HasColumnName("Copy Sell-to Addr_ to Qte From");
 
                 entity.Property(e => e.CountryRegionCode)
                     .IsRequired()
@@ -546,10 +483,7 @@ namespace ArthausWebStore
                     .IsRequired()
                     .HasMaxLength(30);
 
-                entity.Property(e => e.CreatedByUser)
-                    .IsRequired()
-                    .HasColumnName("Created by User")
-                    .HasMaxLength(50);
+
 
                 entity.Property(e => e.CreditLimitLcy)
                     .HasColumnName("Credit Limit (LCY)")
@@ -560,80 +494,28 @@ namespace ArthausWebStore
                     .HasColumnName("Currency Code")
                     .HasMaxLength(10);
 
-                entity.Property(e => e.CurrencyId).HasColumnName("Currency Id");
+
 
                 entity.Property(e => e.CustomerDiscGroup)
                     .IsRequired()
                     .HasColumnName("Customer Disc_ Group")
                     .HasMaxLength(20);
 
-                entity.Property(e => e.CustomerId)
-                    .IsRequired()
-                    .HasColumnName("Customer ID")
-                    .HasMaxLength(10);
 
-                entity.Property(e => e.CustomerPostingGroup)
-                    .IsRequired()
-                    .HasColumnName("Customer Posting Group")
-                    .HasMaxLength(20);
-
-                entity.Property(e => e.CustomerPriceGroup)
-                    .IsRequired()
-                    .HasColumnName("Customer Price Group")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.DateCreated)
-                    .HasColumnName("Date Created")
-                    .HasColumnType("datetime");
 
                 entity.Property(e => e.DaytimePhoneNo)
                     .IsRequired()
                     .HasColumnName("Daytime Phone No_")
                     .HasMaxLength(30);
 
-                entity.Property(e => e.DefaultWeight)
-                    .HasColumnName("Default Weight")
-                    .HasColumnType("decimal(38, 20)");
 
-                entity.Property(e => e.DocumentSendingProfile)
-                    .IsRequired()
-                    .HasColumnName("Document Sending Profile")
-                    .HasMaxLength(20);
 
                 entity.Property(e => e.EMail)
                     .IsRequired()
                     .HasColumnName("E-Mail")
                     .HasMaxLength(80);
 
-                entity.Property(e => e.FaxNo)
-                    .IsRequired()
-                    .HasColumnName("Fax No_")
-                    .HasMaxLength(30);
-
-                entity.Property(e => e.FinChargeTermsCode)
-                    .IsRequired()
-                    .HasColumnName("Fin_ Charge Terms Code")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.GenBusPostingGroup)
-                    .IsRequired()
-                    .HasColumnName("Gen_ Bus_ Posting Group")
-                    .HasMaxLength(20);
-
-                entity.Property(e => e.Gln)
-                    .IsRequired()
-                    .HasColumnName("GLN")
-                    .HasMaxLength(13);
-
-                entity.Property(e => e.GlobalDimension1Code)
-                    .IsRequired()
-                    .HasColumnName("Global Dimension 1 Code")
-                    .HasMaxLength(20);
-
-                entity.Property(e => e.GlobalDimension2Code)
-                    .IsRequired()
-                    .HasColumnName("Global Dimension 2 Code")
-                    .HasMaxLength(20);
+ 
 
                 entity.Property(e => e.HomePage)
                     .IsRequired()
@@ -645,37 +527,14 @@ namespace ArthausWebStore
                     .HasColumnName("House No_")
                     .HasMaxLength(30);
 
-                entity.Property(e => e.IcPartnerCode)
-                    .IsRequired()
-                    .HasColumnName("IC Partner Code")
-                    .HasMaxLength(20);
 
-                entity.Property(e => e.InvoiceCopies).HasColumnName("Invoice Copies");
-
-                entity.Property(e => e.InvoiceDiscCode)
-                    .IsRequired()
-                    .HasColumnName("Invoice Disc_ Code")
-                    .HasMaxLength(20);
 
                 entity.Property(e => e.LanguageCode)
                     .IsRequired()
                     .HasColumnName("Language Code")
                     .HasMaxLength(10);
 
-                entity.Property(e => e.LastDateModified)
-                    .HasColumnName("Last Date Modified")
-                    .HasColumnType("datetime");
 
-                entity.Property(e => e.LastModifiedDateTime)
-                    .HasColumnName("Last Modified Date Time")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.LastStatementNo).HasColumnName("Last Statement No_");
-
-                entity.Property(e => e.LocationCode)
-                    .IsRequired()
-                    .HasColumnName("Location Code")
-                    .HasMaxLength(10);
 
                 entity.Property(e => e.MobilePhoneNo)
                     .IsRequired()
@@ -691,47 +550,16 @@ namespace ArthausWebStore
                     .HasColumnName("Name 2")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.NoSeries)
-                    .IsRequired()
-                    .HasColumnName("No_ Series")
-                    .HasMaxLength(20);
 
-                entity.Property(e => e.OtherTenderInFinalizing).HasColumnName("Other Tender in Finalizing");
 
-                entity.Property(e => e.OurAccountNo)
-                    .IsRequired()
-                    .HasColumnName("Our Account No_")
-                    .HasMaxLength(20);
 
-                entity.Property(e => e.PartnerType).HasColumnName("Partner Type");
-
-                entity.Property(e => e.PaymentMethodCode)
-                    .IsRequired()
-                    .HasColumnName("Payment Method Code")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.PaymentMethodId).HasColumnName("Payment Method Id");
-
-                entity.Property(e => e.PaymentTermsCode)
-                    .IsRequired()
-                    .HasColumnName("Payment Terms Code")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.PaymentTermsId).HasColumnName("Payment Terms Id");
 
                 entity.Property(e => e.PhoneNo)
                     .IsRequired()
                     .HasColumnName("Phone No_")
                     .HasMaxLength(30);
 
-                entity.Property(e => e.Picture).HasColumnType("image");
 
-                entity.Property(e => e.PlaceOfExport)
-                    .IsRequired()
-                    .HasColumnName("Place of Export")
-                    .HasMaxLength(20);
-
-                entity.Property(e => e.PostAsShipment).HasColumnName("Post as Shipment");
 
                 entity.Property(e => e.PostCode)
                     .IsRequired()
@@ -743,44 +571,7 @@ namespace ArthausWebStore
                     .HasColumnName("Preferred Bank Account Code")
                     .HasMaxLength(20);
 
-                entity.Property(e => e.Prepayment)
-                    .HasColumnName("Prepayment _")
-                    .HasColumnType("decimal(38, 20)");
 
-                entity.Property(e => e.PricesIncludingVat).HasColumnName("Prices Including VAT");
-
-                entity.Property(e => e.PrimaryContactNo)
-                    .IsRequired()
-                    .HasColumnName("Primary Contact No_")
-                    .HasMaxLength(20);
-
-                entity.Property(e => e.PrintDocumentInvoice).HasColumnName("Print Document Invoice");
-
-                entity.Property(e => e.PrintStatements).HasColumnName("Print Statements");
-
-                entity.Property(e => e.PrivacyBlocked).HasColumnName("Privacy Blocked");
-
-                entity.Property(e => e.ReasonCode)
-                    .IsRequired()
-                    .HasColumnName("Reason Code")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.ReminderTermsCode)
-                    .IsRequired()
-                    .HasColumnName("Reminder Terms Code")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.ResponsibilityCenter)
-                    .IsRequired()
-                    .HasColumnName("Responsibility Center")
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.RestrictionFunctionality).HasColumnName("Restriction Functionality");
-
-                entity.Property(e => e.RetailCustomerGroup)
-                    .IsRequired()
-                    .HasColumnName("Retail Customer Group")
-                    .HasMaxLength(10);
 
                 entity.Property(e => e.SalespersonCode)
                     .IsRequired()
@@ -802,9 +593,6 @@ namespace ArthausWebStore
                     .HasColumnName("Shipment Method Code")
                     .HasMaxLength(10);
 
-                entity.Property(e => e.ShipmentMethodId).HasColumnName("Shipment Method Id");
-
-                entity.Property(e => e.ShippingAdvice).HasColumnName("Shipping Advice");
 
                 entity.Property(e => e.ShippingAgentCode)
                     .IsRequired()
@@ -816,11 +604,7 @@ namespace ArthausWebStore
                     .HasColumnName("Shipping Agent Service Code")
                     .HasMaxLength(10);
 
-                entity.Property(e => e.ShippingTime)
-                    .IsRequired()
-                    .HasColumnName("Shipping Time")
-                    .HasMaxLength(32)
-                    .IsUnicode(false);
+
 
                 entity.Property(e => e.StatisticsGroup).HasColumnName("Statistics Group");
 
@@ -829,14 +613,6 @@ namespace ArthausWebStore
                     .HasColumnName("Tax Area Code")
                     .HasMaxLength(20);
 
-                entity.Property(e => e.TaxAreaId).HasColumnName("Tax Area ID");
-
-                entity.Property(e => e.TaxLiable).HasColumnName("Tax Liable");
-
-                entity.Property(e => e.TelexAnswerBack)
-                    .IsRequired()
-                    .HasColumnName("Telex Answer Back")
-                    .HasMaxLength(20);
 
                 entity.Property(e => e.TelexNo)
                     .IsRequired()
@@ -857,12 +633,7 @@ namespace ArthausWebStore
                     .HasColumnName("Transaction Limit")
                     .HasColumnType("decimal(38, 20)");
 
-                entity.Property(e => e.ValidateEuVatRegNo).HasColumnName("Validate EU Vat Reg_ No_");
-
-                entity.Property(e => e.VatBusPostingGroup)
-                    .IsRequired()
-                    .HasColumnName("VAT Bus_ Posting Group")
-                    .HasMaxLength(20);
+ 
 
                 entity.Property(e => e.VatRegistrationNo)
                     .IsRequired()
