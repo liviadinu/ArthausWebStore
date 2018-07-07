@@ -40,10 +40,15 @@ namespace ArthausWebStore
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
                 options.User.RequireUniqueEmail = true;
+           
             }).AddEntityFrameworkStores<ArthuisWebShopContext>();
 
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1); 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             services.AddNodeServices();
             services.Configure<CookiePolicyOptions>(options =>
             {

@@ -45,7 +45,7 @@ namespace ArthausWebStore.Controllers
 
             if (user != null)
             {
-                var result = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false);
+                var result = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, true, false);
                 if (result.Succeeded)
                 {
                     if (string.IsNullOrEmpty(loginViewModel.ReturnUrl))

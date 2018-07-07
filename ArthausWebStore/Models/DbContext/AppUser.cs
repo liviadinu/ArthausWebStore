@@ -9,7 +9,7 @@ namespace ArthausWebStore.Models
 {
     public class AppUser : IdentityUser
     {
-        [Required, StringLength(100)]
+
          public string FullName { get; set; }
          public int ContactInfoId { get; set; }
 
