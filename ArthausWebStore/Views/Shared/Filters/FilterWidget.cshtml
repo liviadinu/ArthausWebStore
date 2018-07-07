@@ -44,7 +44,7 @@
                 <ul>
                     @foreach (var item in brands)
                     {
-                        <li><a asp-controller="Products" asp-action="BrandWidget" asp-route-Brands="@item.ToString()">@item.ToString()</a></li>
+                        <li><a asp-controller="Products" asp-action="BrandWidget" asp-route-myBrand="@item.ToString()">@item.ToString()</a></li>
                     }
                 </ul>
             </li>

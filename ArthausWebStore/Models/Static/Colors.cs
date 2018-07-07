@@ -28,6 +28,10 @@ namespace ArthausWebStore.Models.Static
                 case "deep blue": return "color color-4";
                 case "green": return "color color-6";
                 case "yellow": return "color color-8";
+                case "gold": return "color color-19";
+                case "grey": return "color color-20";
+                case "dark grey": return "color color-21";
+                case "turqoise": return "color color-22";
 
                 default:
                     return "color color-2";

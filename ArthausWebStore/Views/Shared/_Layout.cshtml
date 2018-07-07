@@ -81,8 +81,8 @@
                             <div class="single-footer">
                                 <h3 class="footer-title  title-border">Contact Us</h3>
                                 <ul class="footer-contact">
-                                    <li><span>Address :</span>28 Green Tower, Street Name,<br>New York City, USA</li>
-                                    <li><span>Cell-Phone :</span>012345 - 123456789</li>
+                                    <li><span>Address :</span>Het Rond 2, 3701 HS<br>Zeist, Netherlands</li>
+                                    <li><span>Cell-Phone :</span>+ 31 030 692 7400</li>
                                     <li><span>Email :</span>contact@arthaus-furniture.com</li>
                                 </ul>
                             </div>
@@ -95,19 +95,17 @@
                                     <li><a href="#"><i class="zmdi zmdi-dot-circle"></i>My Wishlist</a></li>
                                     <li><a href="#"><i class="zmdi zmdi-dot-circle"></i>My Cart</a></li>
                                     <li><a href="#"><i class="zmdi zmdi-dot-circle"></i>Sign In</a></li>
-                                    <li><a href="#"><i class="zmdi zmdi-dot-circle"></i>Check out</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 hidden-sm col-xs-12">
                             <div class="single-footer">
-                                <h3 class="footer-title  title-border">shipping</h3>
+                                <h3 class="footer-title  title-border">information</h3>
                                 <ul class="footer-menu">
-                                    <li><a href="#"><i class="zmdi zmdi-dot-circle"></i>New Products</a></li>
-                                    <li><a href="#"><i class="zmdi zmdi-dot-circle"></i>Top Sellers</a></li>
-                                    <li><a href="#"><i class="zmdi zmdi-dot-circle"></i>Manufactirers</a></li>
-                                    <li><a href="#"><i class="zmdi zmdi-dot-circle"></i>Suppliers</a></li>
-                                    <li><a href="#"><i class="zmdi zmdi-dot-circle"></i>Specials</a></li>
+                                    <li><a asp-controller="Home" asp-action="ShippingInfo"><i class="zmdi zmdi-dot-circle"></i>Shipping</a></li>
+                                    <li><a asp-controller="Home" asp-action="ReturnsInfo"><i class="zmdi zmdi-dot-circle"></i>Returns & Exchanges</a></li>
+                                    <li><a asp-controller="Home" asp-action="SupplierInfo"><i class="zmdi zmdi-dot-circle"></i>Suppliers</a></li>
+                                    <li><a asp-controller="Home" asp-action="Privacy"><i class="zmdi zmdi-dot-circle"></i>Privacy</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -146,6 +144,7 @@
                     </div>
                 </div>
             </div>
+            @await Html.PartialAsync("../Shared/_CookieConsentPartial.cshtml")
             <!-- Copyright-area start -->
         </footer>
         <!-- FOOTER END -->

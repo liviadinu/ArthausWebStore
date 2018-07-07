@@ -9,6 +9,8 @@ using ArthausWebStore.Models.Static;
 using Microsoft.AspNetCore.Mvc;
 
 
+
+
 namespace ArthausWebStore.Controllers
 {
     public class ProductsController : Controller
@@ -36,7 +38,7 @@ namespace ArthausWebStore.Controllers
             var multipleFilters = hasPrice & (!String.IsNullOrEmpty(searchString));
 
             if (hasPrice)
-            {
+            {        
                 priceRange = priceRange.Replace("$", "");
                 priceRange = priceRange.Replace(" ", "");
                 range = priceRange.Split('-').Select(decimal.Parse).ToArray();
@@ -45,7 +47,7 @@ namespace ArthausWebStore.Controllers
                             join p in rangePrices on sp.No equals p.No
                             select sp;
             }
-       
+
             if (multipleFilters) // get search & price filter
             {
                 var products = await query.Where(q => q.SearchDescription.Contains(searchString.ToUpper()) || q.Description2.Contains(searchString)).
@@ -61,17 +63,19 @@ namespace ArthausWebStore.Controllers
 
             if (!String.IsNullOrEmpty(searchString)) // get search filter
             {
-                var products = await _productRepository.ItemAttributes.GetPagedAsync(pageNumber, pageSize);
+                ViewBag.Breadcrumbs = String.Format(@"<li><a href={0}>Search {1}</a></li>", "#", searchString.ToUpper());
+                var products = await _productRepository.ItemAttributes.Where(q => q.SearchDescription.Contains(searchString.ToUpper()) || q.Description2.Contains(searchString)).
+                                     GetPagedAsync(pageNumber, pageSize);
+                return View(products);
             }
 
             var products2 = await _productRepository.ItemAttributes.OrderBy(i => i.No).GetPagedAsync(pageNumber, pageSize);
             return View(products2);
         }
 
-
         public async Task<IActionResult> WidgetFilter(string color, string season, string style, int? page)
         {
-            
+            SetCommonFileds();
             int pageSize = 9;
             int pageNumber = (page ?? 1);
             if (!String.IsNullOrEmpty(color)) // get color filter
@@ -87,6 +91,7 @@ namespace ArthausWebStore.Controllers
 
             if (!String.IsNullOrEmpty(season))  // get season filter
             {
+                ViewBag.Breadcrumbs = String.Format(@"<li><a href={0}>{1}</a></li>", "#", season.ToUpper());
                 ViewBag.Season = season;
                 var produtcs = await _productRepository.ItemAttributes.Where(s => s.SeasonCode == season).GetPagedAsync(pageNumber, pageSize);
                 return View("Index", produtcs);
@@ -94,6 +99,7 @@ namespace ArthausWebStore.Controllers
 
             if (!String.IsNullOrEmpty(style))  // get style filter
             {
+                ViewBag.Breadcrumbs = String.Format(@"<li><a href={0}>Search {1}</a></li>", "#", style.ToUpper());
                 ViewBag.Style = style;
                 var produtcs = await _productRepository.ItemAttributes.Where(s => s.Style == style).GetPagedAsync(pageNumber, pageSize);
                 return View("Index", produtcs);
@@ -104,6 +110,7 @@ namespace ArthausWebStore.Controllers
 
         public async Task<IActionResult> CategoryWidget(string Category, int? page)
         {
+            ViewBag.Breadcrumbs = String.Format(@"<li><a href={0}>{1}</a></li>", "#", Category);
             ViewBag.Category = Category;
             SetCommonFileds();  // get division filter
             int pageSize = 9;
@@ -116,14 +123,51 @@ namespace ArthausWebStore.Controllers
             return View("Index", produtcs);
         }
 
-        public async Task<IActionResult> BrandWidget(string Brand, int? page)
+        public async Task<IActionResult> PopularDivisions(int? page)
         {
-            ViewBag.Brand = Brand;        // get brand filter
             SetCommonFileds();
             int pageSize = 9;
             int pageNumber = (page ?? 1);
+            ViewBag.Breadcrumbs = String.Format(@"<li><a href={0}>{1}</a></li>", "#", "Popular Categories");
 
-            var itemBrands = _productRepository.ItemBrands.Where(b => b.Description.Contains(Brand));
+            var categories = _productRepository.ItemDivisions.Take(4).ToList();
+            var query = from sp in _productRepository.ItemAttributes
+                        join c in categories on sp.DivisionCode equals c.DivisionCode
+                        select sp;
+            var products = await query.GetPagedAsync(pageNumber, pageSize);
+           return View("Index", products);
+        } //POPULAR CATEG/ CATEG/ SUBCATEG
+
+        public async Task<IActionResult> SubCategoryLink(string subCategory, int? page)
+        {
+            SetCommonFileds();
+            var popularCateg = String.Format(@"<li><a href={0}>{1}</a></li>", "PopularDivisions", "Popular Categories");
+            var buffer = _productRepository.ItemCategory.Where(c => c.Code == subCategory).First();
+            var division = _productRepository.ItemDivisions.Where(d => d.DivisionCode == buffer.DivisionCode).FirstOrDefault();
+            string divisionId = division.DivisionDescription;
+            divisionId = divisionId.Replace(" ", "%20");
+            var category = String.Format(@"<li><a href={0}?Category={1}>{2}</a></li>", "CategoryWidget", divisionId, division.DivisionDescription);
+            var thisPage = String.Format(@"<li><a href={0}>{1}</a></li>", "#", buffer.Description);
+
+            ViewBag.Breadcrumbs = String.Format(@"{0}{1}{2}",popularCateg, category, thisPage);
+            ViewBag.SubCategory = subCategory;           
+            int pageSize = 9;
+            int pageNumber = (page ?? 1);
+            var products = await _productRepository.ItemAttributes.Where(p => p.ItemCategoryCode == subCategory).GetPagedAsync(pageNumber,pageSize);
+            return View("Index", products);
+        }
+
+        public async Task<IActionResult> BrandWidget(string myBrand, int? page)
+        {
+            SetCommonFileds();
+            ViewBag.Brand = myBrand;        // get brand filter
+            ViewBag.Breadcrumbs = String.Format(@"<li><a href={0}>{1}</a></li>", "TopBrands", "Top Brands") + 
+                                  String.Format(@"<li><a href={0}>{1}</a></li>", "#", myBrand);
+            
+            int pageSize = 9;
+            int pageNumber = (page ?? 1);
+
+            var itemBrands = _productRepository.ItemBrands.Where(b => b.Description.Contains(myBrand));
             var query = from sp in _productRepository.ItemAttributes
                             join b in itemBrands on sp.Brand equals b.Code
                             select sp;
@@ -131,8 +175,26 @@ namespace ArthausWebStore.Controllers
             return View("Index", products);
         }
 
+
+        public async Task<IActionResult> TopBrands(string topBrands, int? page)
+        {
+            SetCommonFileds();
+            ViewBag.TopBrands = "true";
+            int pageSize = 9;
+            int pageNumber = (page ?? 1);
+            ViewBag.Breadcrumbs = String.Format(@"<li><a href={0}>{1}</a></li>", "#", "Top Brands");
+            var brands =  _productRepository.ItemBrands.Take(4);
+            
+            var query = from sp in _productRepository.ItemAttributes
+                        join b in brands on sp.Brand equals b.Code
+                        select sp;
+            var products = await query.GetPagedAsync(pageNumber, pageSize);
+            return View("Index", products);
+        }
+
         public async Task<IActionResult> CollectionWidget(string Collection, int? page)
         {
+            ViewBag.Breadcrumbs = String.Format(@"<li><a href={0}>{1}</a></li>", "#", Collection);
             ViewBag.Collection = Collection;        // get brand filter
             SetCommonFileds();
             int pageSize = 9;
@@ -140,6 +202,26 @@ namespace ArthausWebStore.Controllers
             var products = await _productRepository.ItemAttributes.Where(c => c.Collection == Collection).GetPagedAsync(pageNumber, pageSize);
             return View("Index",products);
         }
+
+        public async Task<IActionResult> ViewAccessories(string accessories, int? page)
+        {
+            ViewBag.Accessories = accessories;
+            ViewBag.Breadcrumbs = String.Format(@"<li><a href ={0}>{1}</a ></li>", "#", "Accessories");
+            SetCommonFileds();
+            int pageSize = 9;
+            int pageNumber = (page ?? 1);
+            var divisions = _productRepository.ItemDivisions.Where(d => d.Accessory == 1 & d.Active == 1 & d.BuyableOnline == 1);
+            var query = from sp in _productRepository.ItemAttributes
+                        join d in divisions on sp.DivisionCode equals d.DivisionCode
+                        select sp;
+            var result = await query.GetPagedAsync(pageNumber, pageSize);
+            return View("Index", result);
+        }
+
+        //public Task<IActionResult> SingleProduct(string SKU)
+        //{
+        //    return View();
+        //}
 
         private void SetCommonFileds()
         {
@@ -150,7 +232,7 @@ namespace ArthausWebStore.Controllers
             attributes[2] = _productRepository.ItemAttributes.Select(s => s.Style).Distinct().ToList();
             attributes[3] = _productRepository.ItemAttributes.Select(s => s.SeasonCode).Distinct().ToList();
             attributes[4] = _productRepository.ItemBrands.Select(b => b.Description).ToList();
-            attributes[5] = _productRepository.ItemDivisions.Where(d => d.BuyableOnline == 1).Select(d => d.DivisionDescription).ToList();
+            attributes[5] = _productRepository.ItemDivisions.Where(d => d.BuyableOnline == 1 & d.Active == 1).Select(d => d.DivisionDescription).ToList();
 
             Common.SetAttributes(attributes);
             Common.SetPricecollection(_productRepository.ItemPrices.ToList());

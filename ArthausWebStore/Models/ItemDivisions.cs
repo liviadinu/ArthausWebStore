@@ -9,5 +9,6 @@ namespace ArthausWebStore.Models
         public string DivisionDescription { get; set; }
         public int BuyableOnline { get; set; }
         public byte Active { get; set; }
+        public int Accessory { get; set; }
     }
 }

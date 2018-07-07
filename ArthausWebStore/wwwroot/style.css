@@ -1269,6 +1269,10 @@ span.color.color-15 { background: #e9c080}
 span.color.color-16 { background: #f5d7a9}
 span.color.color-17 { background: #b3d4fc}
 span.color.color-18 { background: #e6fef4}
+span.color.color-19 { background: #f6c104}
+span.color.color-20 { background: #999}
+span.color.color-21 { background: #666}
+span.color.color-22 { background: #00e3ff}
 /* Widget Size Filter */
 .size-filter li {
   float: left;

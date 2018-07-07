@@ -4,6 +4,24 @@
     var urlTemplate = Url.Action() +"?";
 
 
+    if (!String.IsNullOrWhiteSpace(ViewBag.SubCategory))
+    {
+        urlTemplate = urlTemplate + "subCategory=" + ViewBag.CurrentFilter + "&";
+
+    }
+
+    if (!String.IsNullOrWhiteSpace(ViewBag.TopBrands))
+    {
+        urlTemplate = urlTemplate + "topBrands=" + ViewBag.TopBrands + "&";
+    }
+
+    if (!String.IsNullOrWhiteSpace(ViewBag.Accessories))
+    {
+        urlTemplate = urlTemplate + "accessories=" + ViewBag.Accessories + "&";
+
+    }
+
+
     if (!String.IsNullOrWhiteSpace(ViewBag.CurrentFilter))
     {
         urlTemplate = urlTemplate  + "searchString=" + ViewBag.CurrentFilter + "&";
@@ -61,6 +79,7 @@
 }
 <!-- HEADING-BANNER START -->
 <div class="heading-banner-area overlay-bg" src="~/img/bg/1.jpg" alt="asp-append-version=" true"">
+    <a asp-controller="Home" asp-action="Index"></a>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -72,6 +91,7 @@
                         <ul>
                             <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                             <li><a asp-controller="Products" asp-action="Index">Catalog</a></li>
+                            @Html.Raw(@ViewBag.Breadcrumbs)
                         </ul>
                     </div>
                 </div>
@@ -125,14 +145,10 @@
                 </aside>
                 <!-- Shop-Filter end -->
                 <!-- Widget-Color start -->
-                @await Html.PartialAsync("../Shared/Filters/ColorsWidget.cshtml");
+                @await Html.PartialAsync("../Shared/Filters/ColorsWidget.cshtml")
                 <!-- Widget-Color end -->
                 <!-- Widget-banner start -->
-                <aside class="widget widget-banner hidden-sm">
-                    <div class="widget-info widget-banner-img">
-                        <a href="404.html"><img src="img/banner/5.jpg" alt="" /></a>
-                    </div>
-                </aside>
+                @await Html.PartialAsync("../Shared/NotFound.cshtml")
                 <!-- Widget-banner end -->
             </div>
             <div class="col-md-9 col-sm-12 col-xs-12">
@@ -314,31 +330,6 @@
                 modal.find('.modal-content').load(url);
             });
         });
-        /*----------------------------
-            price-slider active
-        ------------------------------ */
-        //$("#slider-range22").slider({
-        //    range: true,
-        //    min: 0,
-        //    max: 150,
-        //    values: [0, 999],
-        //    slide: function (event, ui) {
-        //        $("#amount22").val("$" + ui.values[0] + " - $" + ui.values[1]);
-
-        //    }
-        //});
-        //$("#amount22").val("$" + $("#slider-range22").slider("values", 0) +
-        //    " - $" + $("#slider-range22").slider("values", 1));
-
-                $("#slider-range").on("slide", function (event, ui) {
-                     var sliderMaxVal = $("#amount") .text(ui.values[1]);
-                    var sliderMinVal = $("#amount").text(ui.values[0]);
-                    var button = $(event.relatedTarget); // Button that triggered the modal
-                    //$("#grid-view").load("Products/Index?priceRange=", { priceRange: ui.values[0] + ';' + ui.values[1] });
-                    //var url = button.attr("href").replace("{0}","");
-                   
-                    //$("#grid-view").load(url);
-                });
     </script>
 
 }

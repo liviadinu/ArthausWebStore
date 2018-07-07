@@ -2026,6 +2026,8 @@ namespace ArthausWebStore.Migrations
                         .HasColumnName("Division Code")
                         .HasMaxLength(10);
 
+                    b.Property<int>("Accessory");
+
                     b.Property<byte>("Active");
 
                     b.Property<int>("BuyableOnline")
@@ -12054,40 +12056,11 @@ namespace ArthausWebStore.Migrations
                     b.ToTable("Service Order Type");
                 });
 
-            modelBuilder.Entity("ArthausWebStore.Models.ServicePriceGroup", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasMaxLength(10);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnName("timestamp");
-
-                    b.HasKey("Code");
-
-                    b.HasIndex("Description", "Code")
-                        .IsUnique()
-                        .HasName("$1");
-
-                    b.ToTable("Service Price Group");
-                });
-
             modelBuilder.Entity("ArthausWebStore.Models.ServiceProduct", b =>
                 {
                     b.Property<string>("No")
                         .HasColumnName("No_")
                         .HasMaxLength(20);
-
-                    b.Property<string>("BaseCapacityUnitOfMeasure")
-                        .IsRequired()
-                        .HasColumnName("Base Capacity Unit of Measure")
-                        .HasMaxLength(10);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -12095,14 +12068,12 @@ namespace ArthausWebStore.Migrations
 
                     b.Property<byte>("Enabled");
 
-                    b.Property<DateTime>("EndDateSales")
-                        .HasColumnName("End Date Sales")
-                        .HasColumnType("datetime");
-
                     b.Property<string>("LinkedItemNo")
                         .IsRequired()
                         .HasColumnName("Linked Item No_")
                         .HasMaxLength(20);
+
+                    b.Property<string>("LongDescription");
 
                     b.Property<byte>("NoItemLink")
                         .HasColumnName("No Item Link");
@@ -12111,10 +12082,6 @@ namespace ArthausWebStore.Migrations
                         .IsRequired()
                         .HasColumnName("No_ Series")
                         .HasMaxLength(10);
-
-                    b.Property<DateTime>("SalesStartDate")
-                        .HasColumnName("Sales Start Date")
-                        .HasColumnType("datetime");
 
                     b.Property<int>("ServiceProductId")
                         .HasColumnName("Service Product ID");
@@ -12143,27 +12110,31 @@ namespace ArthausWebStore.Migrations
                     b.ToTable("Service Product");
                 });
 
-            modelBuilder.Entity("ArthausWebStore.Models.ServiceProductType", b =>
+            modelBuilder.Entity("ArthausWebStore.Models.ServiceProductPrices", b =>
                 {
-                    b.Property<string>("Code")
-                        .HasMaxLength(10);
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(30);
+                    b.Property<string>("BaseCapacityUnitOfMeasure");
 
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnName("timestamp");
+                    b.Property<string>("Description");
 
-                    b.Property<byte>("TransportDependent")
-                        .HasColumnName("Transport Dependent");
+                    b.Property<decimal>("FreeAfterPoint");
 
-                    b.HasKey("Code");
+                    b.Property<decimal>("MinAmountToOrder");
 
-                    b.ToTable("Service Product Type");
+                    b.Property<string>("MyProperty");
+
+                    b.Property<decimal>("PricePerUnit");
+
+                    b.Property<string>("PricingMethod");
+
+                    b.Property<string>("ServiceNo");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ServiceProductPrices");
                 });
 
             modelBuilder.Entity("ArthausWebStore.Models.ServiceProvider", b =>

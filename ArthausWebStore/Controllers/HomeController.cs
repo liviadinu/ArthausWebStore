@@ -46,11 +46,6 @@ namespace ArthausWebStore.Controllers
             return View(homeViewModel);
         }
 
-        public IActionResult About()
-        {
-            return View();
-        }
-
         [Route("ProductQuick",Name ="productsquickvalue")]
         public IActionResult QuickView(string ItemSKU)
         {
@@ -67,7 +62,42 @@ namespace ArthausWebStore.Controllers
 
         public IActionResult Privacy()
         {
+            return View("../Home/Privacy");
+        }
+
+        public IActionResult About()
+        {
+            return View("../Home/About");
+        }
+
+        public IActionResult ShippingInfo()
+        {
+            return View("../Home/ShippingInfo");
+        }
+
+        public IActionResult ServicesInfo()
+        {
             return View();
+        }
+
+        public IActionResult ReturnsInfo()
+        {
+            return View("../Home/ReturnsInfo");
+        }
+
+        public IActionResult ContactInfo()
+        {
+            return View("../Home/Contact");
+        }
+
+        public IActionResult Blog()
+        {
+            return View("../Home/Blog");
+        }
+
+        public IActionResult Lookbook()
+        {
+            return View("../Home/Lookbook");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,6 +1,6 @@
 ﻿
 @foreach(var brand in Model.ItemBrandsList)
     {
-    <li><a href="#">@brand.Description.ToString() </a></li>
+    <li><a asp-controller="Products" asp-action="BrandWidget" asp-route-myBrand="@brand.Description">@brand.Description.ToString() </a></li>
    }
 

@@ -43,9 +43,8 @@ namespace ArthausWebStore.Models
         public virtual DbSet<ServiceOrderItems> ServiceOrderItems { get; set; }
         public virtual DbSet<ServiceOrderStatus> ServiceOrderStatus { get; set; }
         public virtual DbSet<ServiceOrderType> ServiceOrderType { get; set; }
-        public virtual DbSet<ServicePriceGroup> ServicePriceGroup { get; set; }
         public virtual DbSet<ServiceProduct> ServiceProduct { get; set; }
-        public virtual DbSet<ServiceProductType> ServiceProductType { get; set; }
+        public virtual DbSet<ServiceProductPrices> ServiceProductPrices { get; set; }
         public virtual DbSet<ServiceProvider> ServiceProvider { get; set; }
         public virtual DbSet<ShippingAgent> ShippingAgent { get; set; }
         public virtual DbSet<ShippingAgentServices> ShippingAgentServices { get; set; }
@@ -11403,29 +11402,6 @@ namespace ArthausWebStore.Models
                     .IsRowVersion();
             });
 
-            modelBuilder.Entity<ServicePriceGroup>(entity =>
-            {
-                entity.HasKey(e => e.Code);
-
-                entity.ToTable("Service Price Group");
-
-                entity.HasIndex(e => new { e.Description, e.Code })
-                    .HasName("$1")
-                    .IsUnique();
-
-                entity.Property(e => e.Code)
-                    .HasMaxLength(10)
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Timestamp)
-                    .IsRequired()
-                    .HasColumnName("timestamp")
-                    .IsRowVersion();
-            });
 
             modelBuilder.Entity<ServiceProduct>(entity =>
             {
@@ -11446,18 +11422,9 @@ namespace ArthausWebStore.Models
                     .HasMaxLength(20)
                     .ValueGeneratedNever();
 
-                entity.Property(e => e.BaseCapacityUnitOfMeasure)
-                    .IsRequired()
-                    .HasColumnName("Base Capacity Unit of Measure")
-                    .HasMaxLength(10);
-
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasMaxLength(50);
-
-                entity.Property(e => e.EndDateSales)
-                    .HasColumnName("End Date Sales")
-                    .HasColumnType("datetime");
 
                 entity.Property(e => e.LinkedItemNo)
                     .IsRequired()
@@ -11470,10 +11437,6 @@ namespace ArthausWebStore.Models
                     .IsRequired()
                     .HasColumnName("No_ Series")
                     .HasMaxLength(10);
-
-                entity.Property(e => e.SalesStartDate)
-                    .HasColumnName("Sales Start Date")
-                    .HasColumnType("datetime");
 
                 entity.Property(e => e.ServiceProductId).HasColumnName("Service Product ID");
 
@@ -11488,27 +11451,6 @@ namespace ArthausWebStore.Models
                     .HasMaxLength(10);
             });
 
-            modelBuilder.Entity<ServiceProductType>(entity =>
-            {
-                entity.HasKey(e => e.Code);
-
-                entity.ToTable("Service Product Type");
-
-                entity.Property(e => e.Code)
-                    .HasMaxLength(10)
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(30);
-
-                entity.Property(e => e.Timestamp)
-                    .IsRequired()
-                    .HasColumnName("timestamp")
-                    .IsRowVersion();
-
-                entity.Property(e => e.TransportDependent).HasColumnName("Transport Dependent");
-            });
 
             modelBuilder.Entity<ServiceProvider>(entity =>
             {

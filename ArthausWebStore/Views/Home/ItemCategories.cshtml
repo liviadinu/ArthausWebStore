@@ -1,5 +1,5 @@
 ﻿
 @foreach (var brand in Model.ItemCategoriesList)
 {
-    <li><a href="#">@brand.Description.ToString() </a></li>
+    <li><a asp-controller="Products" asp-action="SubCategoryLink" asp-route-subCategory="@brand.Code">@brand.Description.ToString() </a></li>
 }

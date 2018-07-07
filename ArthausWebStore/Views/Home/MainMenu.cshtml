@@ -20,13 +20,13 @@
                             <div class="table-cell">
                                 <div class="half-width">
                                     <ul>
-                                        <li class="menu-title">best brands</li>
+                                        <li class="menu-title">best brands</a></li>
                                         @await Html.PartialAsync("../Home/ItemBrands.cshtml")
                                     </ul>
                                 </div>
                                 <div class="half-width">
                                     <ul>
-                                        <li class="menu-title">popular categories</li>
+                                        <li class="menu-title">popular categories</a></li>
                                         @await Html.PartialAsync("../Home/ItemCategories.cshtml")
                                     </ul>
                                 </div>
@@ -40,56 +40,28 @@
                         </div>
                     </div>
                 </li>
-                <li>
-                    <a href="#">Shortcodes</a>
-                    <div class="sub-menu menu-scroll">
-                        <ul>
-                            <li class="menu-title">Shortcodes</li>
-                            <li><a href="elements-accordions.html">Accordion</a></li>
-                            <li><a href="elements-toggles.html">Toggles</a></li>
-                            <li><a href="elements-tab.html">Tab</a></li>
-                            <li><a href="elements-product-tab.html">Product Tab</a></li>
-                            <li><a href="elements-product-tab-2.html">Product Tab 2</a></li>
-                            <li><a href="elements-carousel.html">product carousel</a></li>
-                            <li><a href="elements-carousel-2.html">product carousel 2</a></li>
-                            <li><a href="elements-featured-product.html">Featured Product</a></li>
-                            <li><a href="elements-featured-product-2.html">Featured Product 2</a></li>
-                            <li><a href="elements-button.html">Button</a></li>
-                            <li><a href="elements-table.html">Table</a></li>
-                            <li><a href="elements-progress-bars.html">Progress Bar</a></li>
-                            <li><a href="elements-blog.html">Blog</a></li>
-                            <li><a href="elements-blog-2.html">Blog - 2</a></li>
-                            <li><a href="elements-team.html">Team</a></li>
-                            <li><a href="elements-footer.html">Footer</a></li>
-                            <li><a href="elements-footer-2.html">Footer 2</a></li>
-                            <li><a href="elements-map.html">Map</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li><a asp-controller="Products" asp-action="ViewAccessories">accesories</a></li>
-                <li><a href="shop-list.html">lookbook</a></li>
-                <li><a href="blog.html">blog</a></li>
+                <li><a asp-controller="Products" asp-action="ViewAccessories" asp-route-accessories="true">accesories</a></li>
+                <li><a asp-controller="Home" asp-action="Lookbook">lookbook</a></li>
+                <li><a asp-controller="Home" asp-action="Blog">blog</a></li>
                 <li>
                     <a href="#">pages</a>
                     <div class="sub-menu menu-scroll">
                         <ul>
-                            <li class="menu-title">Page's</li>
-                            <li><a asp-controller="Products" asp-action="Index">Shop</a></li>
+                            <li class="menu-title">Pages</li>
                             <li><a asp-controller="Products" asp-action="Index">Products</a></li>
-                            <li><a href="cart.html">Shopping Cart</a></li>
+                            <li><a asp-controller="Products" asp-action="Services">Services</a></li>
                             <li><a href="wishlist.html">Wishlist</a></li>
                             <li><a href="checkout.html">Checkout</a></li>
-                            <li><a href="order.html">Order</a></li>
+                            <li><a href="order.html">Custom Order</a></li>
                             <li><a href="login.html">login / Registration</a></li>
                             <li><a href="my-account.html">My Account</a></li>
-                            <li><a href="blog.html">Blog</a></li>
-                            <li><a href="about.html">About Us</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li><a asp-controller="Products" asp-action="TopBrands">Top Brands</a></li>
+                            <li><a asp-controller="Products" asp-action="PopularDivisions">Popular Categories</a></li>
                         </ul>
                     </div>
                 </li>
-                <li><a href="about.html">about us</a></li>
-                <li><a href="contact.html">contact</a></li>
+                <li><a asp-controller="Home" asp-action="About">about us</a></li>
+                <li><a asp-controller="Home" asp-action="Contact">contact</a></li>
             </ul>
         </nav>
     </div>
@@ -109,27 +81,25 @@
                             </li>
                             <li><a asp-controller="Products" asp-action="Index">Catalog</a></li>
                             <li><a asp-controller="Home" asp-action="ViewAccessories">accesories</a></li>
-                            <li><a href="shop-list.html">lookbook</a></li>
-                            <li><a href="blog.html">blog</a></li>
+                            <li><a asp-controller="Services" asp-action="Index">Services</a></li>
+                            <li><a asp-controller="Home" asp-action="Lookbook">lookbook</a></li>
+                            <li><a asp-controller="Home" asp-action="Blog">blog</a></li>
                             <li>
                                 <a href="#">pages</a>
                                 <ul>
-                                    <li><a asp-controller="Products" asp-action="Index">Shop</a></li>
                                     <li><a asp-controller="Products" asp-action="Index">Products</a></li>
-                                    <li><a href="cart.html">Shopping Cart</a></li>
+                                    <li><a asp-controller="Services" asp-action="Index">Services</a></li>
                                     <li><a href="wishlist.html">Wishlist</a></li>
                                     <li><a href="checkout.html">Checkout</a></li>
                                     <li><a href="order.html">Custom Order</a></li>
                                     <li><a href="login.html">login / Registration</a></li>
                                     <li><a href="my-account.html">My Account</a></li>
-                                    <li><a href="404.html">404</a></li>
-                                    <li><a href="blog.html">Blog</a></li>
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li><a href="contact.html">Contact</a></li>
+                                    <li><a asp-controller="Products" asp-action="TopBrands">Top Brands</a></li>
+                                    <li><a asp-controller="Products" asp-action="PopularDivisions">Popular Categories</a></li>
                                 </ul>
                             </li>
-                            <li><a href="about.html">about us</a></li>
-                            <li><a href="contact.html">contact</a></li>
+                            <li><<a asp-controller="Home" asp-action="About">about us</a></li>
+                            <li><a asp-controller="Home" asp-action="Contact">contact</a></li>
                         </ul>
                     </nav>
                 </div>
