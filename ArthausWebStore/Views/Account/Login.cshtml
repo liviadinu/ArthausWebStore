@@ -3,42 +3,53 @@
 @model LoginViewModel
 
 @inject SignInManager<AppUser> SignInManager
-
-<h2>Please log in before placing an order.</h2>
-
-<h3>Login using an account  Shop...</h3>
-<form asp-controller="Account" asp-action="Login" method="post" class="form-horizontal" role="form">
-    <h4>Enter your details below</h4>
-    <hr />
-    <input type="hidden" asp-for="ReturnUrl" />
-    <div asp-validation-summary="All" class="text-danger"></div>
-
-
-
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Email" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
+			<!-- HEADING-BANNER START -->
+<div class="heading-banner-area overlay-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="heading-banner">
+                    <div class="heading-banner-title">
+                        <h2>Login</h2>
+                    </div>
+                    <div class="breadcumbs pb-15">
+                        <ul>
+                            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li>Login</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+<!-- HEADING-BANNER END -->
+<div class="login-area  pt-80 pb-80">
+    <div class="container">
 
-    <div class="form-group">
-        <label asp-for="Password" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Password" class="form-control" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
+        <form asp-controller="Account" asp-action="Login" method="post" role="form">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="customer-login text-left">
+                        <h4 class="title-1 title-border text-uppercase mb-30">Registered customers</h4>
+                        <p class="text-gray">If you have an account with us, please login!</p>
+
+                        <input type="hidden" asp-for="ReturnUrl" />
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
+                        <input asp-for="Email" class="form-control" type="text" placeholder="Email here..." />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+
+                        <input asp-for="Password" class="form-control" placeholder="Password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+
+                        <p><a href="#" class="text-gray">Forgot your password?</a></p>
+
+                        <input type="submit" class="button-one submit-button mt-15" value="Log in" />
+                   </div>
+                </div>
+            </div>
+        </form>
     </div>
-
-
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-primary" value="Log in" />
-        </div>
-    </div>
-
-</form>
+</div>
 

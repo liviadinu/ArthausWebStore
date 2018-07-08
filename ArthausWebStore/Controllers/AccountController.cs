@@ -7,7 +7,7 @@ using ArthausWebStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace ArthausWebStore.Controllers
 {
@@ -55,7 +55,7 @@ namespace ArthausWebStore.Controllers
                 }
             }
 
-            ModelState.AddModelError("", "Username/password not found");
+            ModelState.AddModelError("", "Username/password is incorrect.");
             return View(loginViewModel);
         }
 
@@ -67,15 +67,15 @@ namespace ArthausWebStore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(LoginViewModel loginViewModel)
+        public async Task<IActionResult> Register(RegisterViewModel loginViewModel)
         {
             if (ModelState.IsValid)
             {
                 var user = new AppUser()
                 { UserName = loginViewModel.UserName,
-                    Email = loginViewModel.Email,
-                    FullName = loginViewModel.FullName,
-                     };
+                  Email = loginViewModel.Email,
+                  FullName = loginViewModel.FullName,
+                };
                 var result = await _userManager.CreateAsync(user, loginViewModel.Password);
 
                 if (result.Succeeded)
