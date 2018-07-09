@@ -1,4 +1,8 @@
-﻿<!-- HEADER-AREA START -->
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore
+
+@inject SignInManager<AppUser> SignInManager
+<!-- HEADER-AREA START -->
 <header id="sticky-menu" class="header header-2">
 
     <!-- MAIN-MENU START -->
@@ -20,7 +24,7 @@
                             <div class="table-cell">
                                 <div class="half-width">
                                     <ul>
-                                        <li class="menu-title">best brands</a></li>
+                                        <li class="menu-title">best brands</li>
                                         @await Html.PartialAsync("../Home/ItemBrands.cshtml")
                                     </ul>
                                 </div>
@@ -53,7 +57,6 @@
                             <li><a href="wishlist.html">Wishlist</a></li>
                             <li><a href="checkout.html">Checkout</a></li>
                             <li><a href="order.html">Custom Order</a></li>
-                            <li><a asp-controller="Account" asp-action="Register">login / Registration</a></li>
                             <li><a href="my-account.html">My Account</a></li>
                             <li><a asp-controller="Products" asp-action="TopBrands">Top Brands</a></li>
                             <li><a asp-controller="Products" asp-action="PopularDivisions">Popular Categories</a></li>
@@ -92,8 +95,8 @@
                                     <li><a href="wishlist.html">Wishlist</a></li>
                                     <li><a href="checkout.html">Checkout</a></li>
                                     <li><a href="order.html">Custom Order</a></li>
-                                    <li><a asp-controller="Account" asp-action="Register">login / Registration</a></li>
-                                    <li><a href="my-account.html">My Account</a></li>
+                                    @if (SignInManager.IsSignedIn(User)) {<li><a id="loginLink" asp-controller="Account" asp-action="MyAccount" class="customer-login">My Account</a></li> }
+                                    
                                     <li><a asp-controller="Products" asp-action="TopBrands">Top Brands</a></li>
                                     <li><a asp-controller="Products" asp-action="PopularDivisions">Popular Categories</a></li>
                                 </ul>

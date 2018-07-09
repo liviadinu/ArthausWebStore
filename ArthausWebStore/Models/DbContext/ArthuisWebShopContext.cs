@@ -16,6 +16,7 @@ namespace ArthausWebStore.Models
         {
         }
 
+        public virtual DbSet<MailingNotRegistered> MailingListExternal { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Item> Item { get; set; }
         public virtual DbSet<ItemAttributes> ItemAttributes { get; set; }

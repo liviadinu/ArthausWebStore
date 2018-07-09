@@ -7,16 +7,34 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-area="" asp-controller="Account" asp-action="Logout" id="logoutForm"
-          method="post" class="navbar-right">
+          method="post" >
         <ul class="nav navbar-nav navbar-right">
+            <li class="mini-cart text-right">
+                <a class="cart-icon" href="#">
+                    <i class="zmdi zmdi-shopping-cart"></i>
+                    <span>3</span>
+                </a>
+
+                @await Html.PartialAsync("../Products/QuickViewCart.cshtml")
+            </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            <li><a id="registerLink" asp-controller="Account" asp-action="MyAccount">My Account</a></li>
         </ul>
     </form>
+
+
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li><a id="registerLink" asp-controller="Account" asp-action="Register">Register</a></li>
-        <li><a id="loginLink" asp-controller="Account" asp-action="Login">Log in</a></li>
+    <ul class="nav navbar-nav navbar-right text-capitalize">
+        <li>
+            <a class="cart-icon" href="#">
+                <i class="zmdi zmdi-shopping-cart"></i>
+                <span>3</span>
+            </a>
+            @await Html.PartialAsync("../Products/QuickViewCart.cshtml")
+        </li>
+        <li><a id="registerLink" asp-controller="Account" asp-action="Register" class="customer-login">Register</a></li>
+        <li><a id="loginLink" asp-controller="Account" asp-action="Login" class="customer-login">Log in</a></li>
     </ul>
 }

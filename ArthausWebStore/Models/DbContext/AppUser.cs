@@ -9,9 +9,9 @@ namespace ArthausWebStore.Models
 {
     public class AppUser : IdentityUser
     {
-
          public string FullName { get; set; }
          public int ContactInfoId { get; set; }
+         public bool MainingList { get; set; }
 
     }
 }

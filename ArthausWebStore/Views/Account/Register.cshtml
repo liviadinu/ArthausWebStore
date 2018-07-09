@@ -1,69 +1,64 @@
-﻿
+﻿@using System.Threading.Tasks
+@using Microsoft.AspNetCore.Identity
 @model RegisterViewModel
-
-<form asp-controller="Account" asp-action="Register" method="post" role="form">
-    <div asp-validation-summary="All" class="text-danger"></div>
-
-    <div class="form-group">
-        <label asp-for="UserName" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="UserName" class="form-control" />
-            <span asp-validation-for="UserName" class="text-danger"></span>
+@inject SignInManager<AppUser> SignInManager
+			<!-- HEADING-BANNER START -->
+<div class="heading-banner-area overlay-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="heading-banner">
+                    <div class="heading-banner-title">
+                        <h2>Registration</h2>
+                    </div>
+                    <div class="breadcumbs pb-15">
+                        <ul>
+                            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li>Register</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+<!-- HEADING-BANNER END -->
+<div class="login-area  pt-80 pb-80">
+    <div class="container">
+        <form asp-controller="Account" asp-action="Register" method="post" role="form">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="customer-login text-left">
+                    <h4 class="title-1 title-border text-uppercase mb-30">Welcome</h4>
+                    <p class="text-gray">Here you can register for a new account!</p>
 
-    <div class="form-group">
-        <label asp-for="FullName" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="FullName" class="form-control" />
-            <span asp-validation-for="FullName" class="text-danger"></span>
-        </div>
+                    <input type="hidden" asp-for="ReturnUrl" />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <input asp-for="UserName" class="form-control" type="text" placeholder="User Name..." />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+
+                    <input asp-for="FullName" class="form-control" type="text" placeholder="Full Name..." />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+
+                    <input asp-for="Email" class="form-control" type="text" placeholder="Email here..." />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+
+                    <input asp-for="EmailConfirm" class="form-control" type="text" placeholder="Confirm your e-mail..." />
+                    <span asp-validation-for="EmailConfirm" class="text-danger"></span>
+
+                    <input asp-for="Password" class="form-control" placeholder="Password..." />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+
+                    <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password..." />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+                    <p class="mb-0">
+                        <input asp-for="NewsLetter"  type="checkbox" name="newsletter" checked>
+                        <label asp-for="NewsLetter"><span>Sign up for our newsletter!</span></label>
+                    </p>
+                    <input type="submit" class="button-one submit-button mt-15" value="Register" />
+                </div>
+            </div>
+        </form>
     </div>
-
-    <div class="form-group">
-        <label asp-for="Email" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="EmailConfirm" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="EmailConfirm" class="form-control" />
-            <span asp-validation-for="EmailConfirm" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Password" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Password" class="form-control" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="ConfirmPassword" class="form-control" />
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="ConfirmPassword" class="form-control" />
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-primary" value="Register" />
-        </div>
-    </div>
-</form>
+ </div>

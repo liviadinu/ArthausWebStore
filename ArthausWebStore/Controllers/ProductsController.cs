@@ -6,6 +6,7 @@ using ArthausWebStore.Models;
 using ArthausWebStore.Models.PageHelpers;
 using ArthausWebStore.Models.Repositories;
 using ArthausWebStore.Models.Static;
+using ArthausWebStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -218,10 +219,49 @@ namespace ArthausWebStore.Controllers
             return View("Index", result);
         }
 
-        //public Task<IActionResult> SingleProduct(string SKU)
-        //{
-        //    return View();
-        //}
+        public  async Task<IActionResult> SingleProduct(string SKU)
+        {
+            var category = await GetCategoryDescription(SKU);
+            var item = await GetItemAttributes(SKU);
+            var measure = await GetMeasurement(SKU);
+            var prices = await GetPrices(SKU);
+            var variant = await GetVariants(SKU);
+            var product = new SingleProductViewModel
+            {
+                Category = category,
+                 Measurement = measure,
+                  Prices = prices,
+                   Product = item,
+                    Variants = variant
+            };
+            return View("SingleProduct", product);
+        }
+
+        private Task<ItemMeasurement> GetMeasurement(string SKU)
+        {
+            return Task.Run(() => _productRepository.ItemMeasurement.Where(m => m.No.StartsWith(SKU.ToUpper())).FirstOrDefault());
+        }
+
+        private Task<ItemAttributes> GetItemAttributes(string SKU)
+        {
+            return Task.Run(() => _productRepository.ItemAttributes.Where(c => c.No == SKU).FirstOrDefault());
+        }
+
+        private Task<List<ItemVariant>> GetVariants(string SKU)
+        {
+            return Task.Run(() => _productRepository.ItemVariants.Where(c => c.ItemNo == SKU).ToList());
+        }
+
+        private Task<ItemPrices> GetPrices(string SKU)
+        {
+            return Task.Run(() => _productRepository.ItemPrices.Where(p => p.No.StartsWith(SKU.ToUpper())).FirstOrDefault());
+        }
+
+        private Task<String> GetCategoryDescription(string SKU)
+        {
+            return Task.Run(() => _productRepository.ItemCategory.Where(p => p.DivisionCode.StartsWith(SKU.ToUpper())).FirstOrDefault().Description);
+        }
+
 
         private void SetCommonFileds()
         {

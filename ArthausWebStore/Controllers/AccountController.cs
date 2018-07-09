@@ -69,18 +69,49 @@ namespace ArthausWebStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel loginViewModel)
         {
+            var checkMail = await _userManager.FindByEmailAsync(loginViewModel.Email);
+            if (checkMail != null)
+            {
+                ModelState.AddModelError("", "A user with this e-mail address is already registered");
+                return View();
+            };
+
+            var checkUserName = await _userManager.FindByNameAsync(loginViewModel.UserName);
+            if (checkUserName != null)
+            {
+                ModelState.AddModelError("", "This username is already taken.");
+                return View();
+            }
+
+            var matchInput = (checkMail == checkUserName) & (checkMail != null) & (checkUserName != null);
+
+            if (matchInput)
+            {
+                ModelState.AddModelError("", "Username and password cannot have the same value.");
+                return View();
+            }
+
             if (ModelState.IsValid)
             {
                 var user = new AppUser()
                 { UserName = loginViewModel.UserName,
                   Email = loginViewModel.Email,
                   FullName = loginViewModel.FullName,
+                  MainingList = loginViewModel.NewsLetter
                 };
                 var result = await _userManager.CreateAsync(user, loginViewModel.Password);
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    ViewBag.Title = "Success";
+                    ViewBag.Message = "Thank you for registering. Please take a moment to confirm your e-mail.";
+                    return View("Message");
+                }
+                else
+                {
+                    ViewBag.Title = "Ooops...";
+                    ViewBag.Message = "Something went wrong. The registration was not successfull.";
+                    return View("Message");
                 }
             }
             return View(loginViewModel);
