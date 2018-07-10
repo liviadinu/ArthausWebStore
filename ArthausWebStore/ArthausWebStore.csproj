@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+    <UserSecretsId>9c25a2eb-634f-4d33-8c56-8f42445e63c9</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,8 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Controllers\ShopCart\Default.cshtml" />
-    <Content Remove="Controllers\ShopCart\Views\Index.cshtml" />
+    <Content Remove="Controllers\ShoppingCart\Default.cshtml" />
+    <Content Remove="Controllers\ShoppingCart\Views\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,7 +52,7 @@
   <ItemGroup>
     <Folder Include="Controllers\Products\" />
     <Folder Include="Controllers\Shipping\" />
-    <Folder Include="Controllers\ShopCart\Views\" />
+    <Folder Include="Controllers\ShoppingCart\Views\" />
   </ItemGroup>
 
 </Project>
